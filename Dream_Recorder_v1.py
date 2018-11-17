@@ -26,11 +26,11 @@ from odf.table import Table, TableColumn, TableRow, TableCell
 
 print wx.PlatformInfo
 
-output_file=u'lucid_dream_data_2018-2019.xls'
+output_file=u'lucid_dream_data_2018-2019_.xls'
 
 Time_origin=0
 Good_practice_origin=4
-Bad_practice_origin=12
+Bad_practice_origin=11
 Results_and_problems_origin=14
 
 Skip_first_entry=False
@@ -245,11 +245,7 @@ class Good_Practice(wx.Panel):
 				self.rb2[i].SetValue(True)
 			if Skip_first_entry:
 				self.rb2[13].SetValue(True)
-				
-				
-				
-				
-				
+		
 		self.rb3.append(wx.RadioButton(self, label="22h00",style=wx.RB_GROUP))
 		self.rb3.append(wx.RadioButton(self, label="22h30"))
 		self.rb3.append(wx.RadioButton(self, label="23h00"))
@@ -342,15 +338,9 @@ class Good_Practice(wx.Panel):
 		fgs_time.AddMany([self.title_evening,self.title_morning,fgs_morning,fgs_evening])#contains time questions
 		fgs_container.AddMany([fgs_notes,fgs_time,fgs_reality_check_and_title,fgs_zazen_and_title,fgs_more_practice,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
-		
-		# ---------------------------------------------------- amplitude enveloppe
-		
-		# ------------------------------------------------------- form foot
-		
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
-	
 	
 	def SetVal(self,event):
 		pass
@@ -367,6 +357,7 @@ class Good_Practice(wx.Panel):
 		reality_check=range(8)[0:8]
 		diner_note=rest_note
 		print reality_check
+		
 		#wake up time
 		if self.text_morning.GetValue()!="":
 			print "wake up time not blank inserting typed text"
@@ -378,6 +369,8 @@ class Good_Practice(wx.Panel):
 				if values.GetValue():
 					rb4_string=hours_morning[i]
 			row_to_add[Time_origin+2]=rb4_string
+			
+			
 		#bed time
 		if self.text_evening.GetValue()!="":
 			print "bed time not blank inserting typed text"
@@ -389,6 +382,8 @@ class Good_Practice(wx.Panel):
 				if values.GetValue():
 					rb3_string=hours_evening[i]
 			row_to_add[Time_origin+1]=rb3_string
+			
+			
 		i=-1# rest rate
 		for values in self.rb1:
 			i+=1
@@ -399,6 +394,8 @@ class Good_Practice(wx.Panel):
 				rb1_string=rest_note[i]
 				row_to_add[Results_and_problems_origin]=rb1_string
 				break
+				
+				
 		i=-1#diner rate
 		if self.rb2[13].GetValue:#"If NA is checked don't look at the rate"
 			row_to_add[Good_practice_origin+5]="NA"
@@ -454,6 +451,8 @@ class Dream_report(wx.Panel):
 		fgs_container = wx.FlexGridSizer(1, 2, 9, 25)
 		fgs_d_report = wx.FlexGridSizer(2, 1, 9, 25)
 		fgs_d_recall = wx.FlexGridSizer(2, 1, 9, 25)
+		
+		
 		#--------------------------------------------------- panel start
 		wx.Panel.__init__(self, parent)
 		font=wx.Font(17,wx.FONTFAMILY_DEFAULT,wx.NORMAL,wx.FONTWEIGHT_NORMAL,False, encoding=wx.FONTENCODING_UTF8)
@@ -478,15 +477,9 @@ class Dream_report(wx.Panel):
 		fgs_d_report.AddMany([self.report,self.button4])
 		fgs_container.AddMany([fgs_d_report,fgs_d_recall])
 		bSizer.Add(fgs_container, wx.ALL)
-		
-		# ---------------------------------------------------- amplitude enveloppe
-		
-		# ------------------------------------------------------- form foot
-		
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
-	
 	
 	def SetVal(self,event):
 		state1 = self.rb1.GetValue()
