@@ -5,6 +5,8 @@
 #text=""
 #text = unicode(text, sys.getfilesystemencoding())
 
+
+#--------------------------------------dependencies-----------------------------------------------
 import wx
 #import wx.lib.scrolledpanel
 
@@ -26,6 +28,7 @@ from odf.table import Table, TableColumn, TableRow, TableCell
 
 print wx.PlatformInfo
 
+#-----------------------------------------------------------------global variables
 output_file=u'lucid_dream_data_2018-2019_.xls'
 
 Time_origin=0
@@ -69,6 +72,9 @@ print Today_Dream_filename
 
 Software_Name="Dream Recorder"
 
+
+
+#-----------------------------------------------------elemental procedures------------------------------------------
 def find_reality_check_consecutive():
 	pass
 	#find todays date
@@ -165,11 +171,11 @@ def save_all(row,report,day_recall):
 	
 		add_row(row_to_add)
 
-
+#-------------------------------------------------------------------interface start-------------------------------------------------
 
 class Good_Practice(wx.Panel):
 	def __init__(self, parent, title):
-		#----------------------------------------------- variable management
+		#----------------------------------------------- container creation
 		global Skip_first_entry
 		fgs_container = wx.FlexGridSizer(4, 2, 9, 25)
 		fgs_reality_check=wx.FlexGridSizer(1, 8, 9, 12)
@@ -212,7 +218,7 @@ class Good_Practice(wx.Panel):
 		
 		
 		
-		#rest note
+		#rest rate
 		rest_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 13
 		for n in range(13):
 			if (n==0):
@@ -229,7 +235,7 @@ class Good_Practice(wx.Panel):
 				
 				
 				
-		#diner note
+		#diner rate
 
 		diner_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 13
 		for n in range(13):
@@ -246,6 +252,9 @@ class Good_Practice(wx.Panel):
 			if Skip_first_entry:
 				self.rb2[13].SetValue(True)
 		
+		
+		
+		# bed time
 		self.rb3.append(wx.RadioButton(self, label="22h00",style=wx.RB_GROUP))
 		self.rb3.append(wx.RadioButton(self, label="22h30"))
 		self.rb3.append(wx.RadioButton(self, label="23h00"))
@@ -261,6 +270,8 @@ class Good_Practice(wx.Panel):
 			
 		self.text_evening=wx.TextCtrl(self)
 		
+		
+		# get up time
 		self.rb4.append(wx.RadioButton(self, label="06h06",style=wx.RB_GROUP))
 		self.rb4.append(wx.RadioButton(self, label="07h07"))
 		self.rb4.append(wx.RadioButton(self, label="07h30"))
@@ -275,6 +286,7 @@ class Good_Practice(wx.Panel):
 		if row_to_add[Time_origin+2]==u"06h06":
 			self.rb4[0].SetValue(True)
 	
+		#meditation
 		self.rb6.append(wx.RadioButton(self, label="0min",style=wx.RB_GROUP))
 		self.rb6.append(wx.RadioButton(self, label="24min"))
 		self.rb6.append(wx.RadioButton(self, label="30min"))
@@ -289,6 +301,8 @@ class Good_Practice(wx.Panel):
 		if row_to_add[Good_practice_origin+5]==45:
 			self.rb4[3].SetValue(True)
 		
+		
+		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
 		self.chk.append(wx.CheckBox(self, -1, 'Practice acceptance dialog'))
 		self.chk.append(wx.CheckBox(self, -1, 'Spoken prayers'))	
@@ -316,6 +330,10 @@ class Good_Practice(wx.Panel):
 		self.button3 = wx.Button(self, label="Record Entry")
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
 		
+		
+		
+		#now filling containers
+		
 		fgs_note1.AddMany(self.rb1)#contient les douze radio buttons de la première note
 		fgs_note2.AddMany(self.rb2)
 		
@@ -342,10 +360,10 @@ class Good_Practice(wx.Panel):
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
 	
-	def SetVal(self,event):
+	def SetVal(self,event):# could be used to transfer standard values in text controls
 		pass
 				
-	def Click(self,event):
+	def Click(self,event):#records the data
 		global row_to_add
 		global Time_origin
 		global Results_and_problems_origin
@@ -445,7 +463,7 @@ class Good_Practice(wx.Panel):
 		
 class Dream_report(wx.Panel):
 	def __init__(self, parent, title):
-		#----------------------------------------------- variable management
+		#----------------------------------------------- container creation
 
 		
 		fgs_container = wx.FlexGridSizer(1, 2, 9, 25)
@@ -524,7 +542,7 @@ class Dream_report(wx.Panel):
 	
 			
 				
-	def Click_day_recall(self,event):
+	def Click_day_recall(self,event):# recording in an open document the day recall text box
 		global Today_Dream_filename
 		global Dream_report_tmp
 		global Dream_report
@@ -604,9 +622,9 @@ class Dream_report(wx.Panel):
 	
 		
 		
-class Dream_Quality(wx.Panel):
+class Dream_Quality(wx.Panel):# tab with Results and problems
 	def __init__(self, parent, title):
-		#----------------------------------------------- variable management
+		#----------------------------------------------- container creation
 
 		fgs_container = wx.FlexGridSizer(2, 2, 9, 25)
 		fgs_dream_quality = wx.FlexGridSizer(10, 1, 9, 25)
@@ -657,8 +675,6 @@ class Dream_Quality(wx.Panel):
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
 		
-		# ---------------------------------------------------- amplitude enveloppe
-		
 		# ------------------------------------------------------- form foot
 		
 			
@@ -703,7 +719,7 @@ class Dream_Quality(wx.Panel):
 		
 class Bad_Practice(wx.Panel):
 	def __init__(self, parent, title):
-		#----------------------------------------------- variable management
+		#----------------------------------------------- container creation
 		fgs_container = wx.FlexGridSizer(2, 2, 9, 25)
 		fgs_dream_quality = wx.FlexGridSizer(9, 1, 9, 25)
 		fgs_problems=wx.FlexGridSizer(9, 1, 9, 25)
@@ -732,8 +748,6 @@ class Bad_Practice(wx.Panel):
 		fgs_problems.AddMany(self.chk[8:17])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
-		
-		# ---------------------------------------------------- amplitude enveloppe
 		
 		# ------------------------------------------------------- form foot
 		
@@ -779,7 +793,7 @@ class Main_Form(wx.Frame):
 	
 	def __init__(self, parent, title):
 		global Skip_first_entry
-		# main backend------------------------------------------------
+		# -------------------------------main backend------------------------------------------------
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 		
 		if get_string_coord(sheet, date)==[]:
@@ -802,7 +816,7 @@ class Main_Form(wx.Frame):
 				row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
 			print row_to_add
 
-		#main frontend--------------------------------------------
+		#---------------------------------------main frontend--------------------------------------------
 		
 		super(Main_Form, self).__init__(parent,title=title, size=(999, 444))
 		
