@@ -29,7 +29,7 @@ from odf.table import Table, TableColumn, TableRow, TableCell
 print wx.PlatformInfo
 
 #-----------------------------------------------------------------global variables
-output_file=u'lucid_dream_data_2018-2019_.xls'
+output_file=u'lucid_dream_data_2018-2019.xls'
 
 Time_origin=0
 Good_practice_origin=4
