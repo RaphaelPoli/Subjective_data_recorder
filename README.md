@@ -8,4 +8,3 @@ The observation already plays a good role in improving the practice. A whole loa
 
 
 Please use the xls file provided. It should be in the same directory than the python file. 
-Also you may want to remove the four dated lines which are my test data.
