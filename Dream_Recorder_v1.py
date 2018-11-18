@@ -16,7 +16,6 @@ from pyexcel_ods import save_data
 from collections import OrderedDict
 import datetime
 
-
 from odf.opendocument import OpenDocumentText#semble accepter les fichiers aux noms accentués
 from odf.style import Style, TextProperties, ParagraphProperties
 from odf.text import H,P
@@ -24,7 +23,6 @@ from odf import  table, text
 from odf.style import Style, TextProperties, ParagraphProperties
 from odf.style import TableColumnProperties
 from odf.table import Table, TableColumn, TableRow, TableCell
-
 
 print wx.PlatformInfo
 
@@ -601,8 +599,6 @@ class Dream_report(wx.Panel):
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
 		
-		h = H(text= Day_recall, stylename=bluestyle, outlinelevel=1,)
-		textdoc.text.addElement(h)
 		h = H(text= Day_recall, stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
 		
