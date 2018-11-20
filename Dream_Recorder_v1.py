@@ -26,6 +26,9 @@ from odf.table import Table, TableColumn, TableRow, TableCell
 
 print wx.PlatformInfo
 
+# to add a row: add the date and the place at the end of the row so that the row has all its cells.
+
+
 #-----------------------------------------------------------------global variables
 output_file=u'lucid_dream_data_2018-2019.xls'
 
@@ -244,6 +247,7 @@ class Good_Practice(wx.Panel):
 			self.rb2[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb2[n].SetValue(False)
 		self.rb2.append(wx.RadioButton(self, label="NA"))
+		self.rb2[13].SetValue(False)
 		for i in range(12):
 			if row_to_add[Good_practice_origin+5]==diner_note[i]:
 				self.rb2[i].SetValue(True)
@@ -413,8 +417,9 @@ class Good_Practice(wx.Panel):
 				
 				
 		i=-1#diner rate
-		if self.rb2[13].GetValue:#"If NA is checked don't look at the rate"
-			row_to_add[Good_practice_origin+5]="NA"
+		if self.rb2[13].GetValue():#"If NA is checked don't look at the rate"
+			print "NA checked"
+			row_to_add[Good_practice_origin+6]="NA"
 		else:
 			for values in self.rb2:
 				i+=1
