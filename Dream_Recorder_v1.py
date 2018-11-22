@@ -598,7 +598,7 @@ class Dream_report(wx.Panel):
 		textdoc.text.addElement(h)
 		
 		if not row_to_add[Good_practice_origin+6] == u"NA":
-			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+6])+u"/10 "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
+			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+6])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
