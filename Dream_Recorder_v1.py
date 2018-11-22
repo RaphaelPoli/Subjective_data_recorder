@@ -30,7 +30,7 @@ print wx.PlatformInfo
 
 
 #-----------------------------------------------------------------global variables
-output_file=u'lucid_dream_data_2018-2019.xls'
+output_file=u'lucid_dream_data_2018-2019_.xls'
 
 Time_origin=0
 Good_practice_origin=4
@@ -598,7 +598,7 @@ class Dream_report(wx.Panel):
 		textdoc.text.addElement(h)
 		
 		if not row_to_add[Good_practice_origin+6] == u"NA":
-			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+5])+u"/10 "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
+			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+6])+u"/10 "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
