@@ -30,18 +30,19 @@ print wx.PlatformInfo
 
 
 #-----------------------------------------------------------------global variables
-output_file=u'lucid_dream_data_2018-2019_.xls'
+default_home_name="La cella"
+output_file=u'lucid_dream_data_2018-2019.xls'
 
 Time_origin=0
-Good_practice_origin=4
-Bad_practice_origin=11
-Results_and_problems_origin=14
+Good_practice_origin=5
+Bad_practice_origin=Good_practice_origin+7
+Results_and_problems_origin=Bad_practice_origin+3
 
 Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
-row_to_add=["NA","NA","NA",
+row_to_add=[date,"NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			
@@ -54,7 +55,8 @@ row_to_add=["NA","NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			
-			"NA","NA","NA", "NA","NA"]
+			"NA","NA","NA", 
+			"NA","NA","NA",default_home_name]
 
 
 month_name_fr=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"]
@@ -87,7 +89,7 @@ def add_column(table):
 		column.append("")
 	return table
 
-def add_row(row):
+def new_day_row(row):
 	
 	global output_file
 	add=False
@@ -112,6 +114,14 @@ def add_row(row):
 		book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
 		book.Sheet1.row+= row
 		book.save_as(output_file)
+		
+def blind_add_row(row):
+	
+	global output_file
+	print "adding row"
+	book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
+	book.Sheet1.row+= row
+	book.save_as(output_file)
 	
 	
 #the next procedure writes into a cell but cannot access unexisting cells please add rows to do that
@@ -170,7 +180,7 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 
 def save_all(row,report,day_recall):
 	
-		add_row(row_to_add)
+		new_day_row(row_to_add)
 
 #-------------------------------------------------------------------interface start-------------------------------------------------
 
@@ -179,6 +189,7 @@ class Good_Practice(wx.Panel):
 		#----------------------------------------------- container creation
 		global Skip_first_entry
 		fgs_container = wx.FlexGridSizer(4, 2, 9, 25)
+		fgs_buttons = wx.FlexGridSizer(1, 2, 9, 25)
 		fgs_reality_check=wx.FlexGridSizer(1, 8, 9, 12)
 		fgs_reality_check_and_title=wx.FlexGridSizer(2, 1, 9, 12)
 		fgs_zazen1=wx.FlexGridSizer(1, 5, 9, 12)
@@ -329,8 +340,10 @@ class Good_Practice(wx.Panel):
 		self.text_morning=wx.TextCtrl(self)
 		#print (len(self.rb3))
 		#self.rb1[9].SetValue(True)
-		self.button3 = wx.Button(self, label="Record Entry")
+		self.button3 = wx.Button(self, label="Replace loaded Entry")
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
+		self.button4 = wx.Button(self, label="Add new entry")
+		self.Bind(wx.EVT_BUTTON, self.add_new_row, self.button4)
 		
 		
 		
@@ -356,7 +369,8 @@ class Good_Practice(wx.Panel):
 		
 		fgs_notes.AddMany([self.title_rest,self.title_diner,fgs_note1,fgs_note2])#contains two main rates
 		fgs_time.AddMany([self.title_evening,self.title_morning,fgs_morning,fgs_evening])#contains time questions
-		fgs_container.AddMany([fgs_notes,fgs_time,fgs_reality_check_and_title,fgs_zazen_and_title,fgs_more_practice,self.button3])
+		fgs_buttons.AddMany([self.button3,self.button4])
+		fgs_container.AddMany([fgs_notes,fgs_time,fgs_reality_check_and_title,fgs_zazen_and_title,fgs_more_practice,fgs_buttons])
 		bSizer.Add(fgs_container, wx.ALL)
 			
 		bSizer2.Add(fgs_container, wx.ALL)
@@ -364,8 +378,38 @@ class Good_Practice(wx.Panel):
 	
 	def SetVal(self,event):# could be used to transfer standard values in text controls
 		pass
-				
+		
+		
+	def add_new_row(self,event):# could be used to transfer standard values in text controls
+		global row_to_add
+		global frame
+		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
+		row_to_add=[date,"NA","NA",
+			"NA","NA","NA",
+			"NA","NA","NA",
+			
+			"NA","NA","NA",
+			"NA","NA","NA",
+			"NA","NA","NA",
+			
+			"NA","NA","NA",
+			"NA","NA","NA",
+			"NA","NA","NA",
+			"NA","NA","NA",
+			
+			"NA","NA","NA", 
+			"NA","NA","NA",default_home_name]
+		blind_add_row(row_to_add)
+		frame.Close()
+		frame = Main_Form(None,Software_Name)
+		app.SetTopWindow(frame)
+		frame.Show()
+		#print frame.text.GetValue()
+	
+		
+		
 	def Click(self,event):#records the data
+		global app
 		global row_to_add
 		global Time_origin
 		global Results_and_problems_origin
@@ -460,7 +504,7 @@ class Good_Practice(wx.Panel):
 					row_to_add[Good_practice_origin+5]=rb6_string
 					break
 		print row_to_add
-		add_row(row_to_add)
+		new_day_row(row_to_add)
 		
 			
 		
@@ -713,7 +757,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 			print i
 			row_to_add[Results_and_problems_origin+1+i]=chk_string[i]
 		print row_to_add
-		add_row(row_to_add)
+		new_day_row(row_to_add)
 		
 		
 		
@@ -787,19 +831,20 @@ class Bad_Practice(wx.Panel):
 			print i
 			row_to_add[Bad_practice_origin+i]=chk_string[i]
 		print row_to_add
-		add_row(row_to_add)
+		new_day_row(row_to_add)
 		
 		
 class Main_Form(wx.Frame):
 	
-	def __init__(self, parent, title):
+	def __init__(self, parent, title, pos=(10,10)):
+		#self.Move(wx.Point(100,100))
 		global Skip_first_entry
 		# -------------------------------main backend------------------------------------------------
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 		
 		if get_string_coord(sheet, date)==[]:
 			row_to_add[0]=date
-			add_row(row_to_add)
+			new_day_row(row_to_add)
 			"You did not run the program today creating new row"
 		else:
 			list_entry=get_string_coord(sheet, date)
@@ -852,6 +897,8 @@ class Main_Form(wx.Frame):
 if __name__ == "__main__":
 	app = wx.App()
 	app.font=wx.Font(24,wx.FONTFAMILY_DEFAULT,wx.NORMAL,wx.FONTWEIGHT_NORMAL,False, encoding=wx.FONTENCODING_UTF8)
+	
+
 	frame = Main_Form(None,Software_Name)
 	app.SetTopWindow(frame)
 	frame.Show()
