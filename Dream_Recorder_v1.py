@@ -340,9 +340,9 @@ class Good_Practice(wx.Panel):
 		self.text_morning=wx.TextCtrl(self)
 		#print (len(self.rb3))
 		#self.rb1[9].SetValue(True)
-		self.button3 = wx.Button(self, label="Replace loaded Entry")
+		self.button3 = wx.Button(self, label="Record on last Entry")
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
-		self.button4 = wx.Button(self, label="Add new entry")
+		self.button4 = wx.Button(self, label="Add new empty entry")
 		self.Bind(wx.EVT_BUTTON, self.add_new_row, self.button4)
 		
 		
