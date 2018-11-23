@@ -13,9 +13,13 @@ Please use the xls file provided. It should be in the same directory than the py
 ### installation
 
 -install python 2.7 
+
 -create a directory and put .py and .xls in it
+
 -install dependencies (all modules after "import" keyword at the start of the .py code
+
 -type in a console >python Dream_Recorder_v1.py
+
 
 the software should start and an interface should appear
 
