@@ -17,6 +17,7 @@ Please use the xls file provided. It should be in the same directory than the py
 -create a directory and put .py and .xls in it
 
 -install dependencies (all modules after "import" keyword at the start of the .py code
+(pyexcell, odf, wx)
 
 -type in a console >python Dream_Recorder_v1.py
 
