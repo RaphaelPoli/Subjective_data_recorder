@@ -1,14 +1,13 @@
 # Subjective_data_recorder
+
+### Overview
 This is a data recorder coded for lucid dream practice. It can be adapted for any subjective frequent data input.
 The principle is just a wx interface related to a xls file.
 Procedures in there can be usefull for any data collection, subjective data but also measures with arduino.
 
-
-The observation already plays a good role in improving the practice. A whole load of statistics are possible along the collected data that represents 35 variables in each row. Many rows a day is possible but the app is optimised for one row a day. 
-
-
-Please use the xls file provided. It should be in the same directory than the python file. 
-
+### lucid dream practice
+Lucid dream is a practice that allows one to live awake experiences in the dream world. It has been researched by Stephan Laberge in the 70s. It has been a buddhist practice for tens of centuries. 
+I propose here to use data science to observe your practice of lucid dream. The observation already plays a good role in improving the quantity of result or the quality of sleep. A whole load of statistics are possible along the collected data that represents 36 variables in each row. Many rows a day is now possible, although certain values will not be relevant at each entry.
 
 ### installation
 
