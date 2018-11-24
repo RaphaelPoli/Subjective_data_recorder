@@ -42,7 +42,7 @@ Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
-row_to_add=[date,"NA","NA",
+empty_row=[date,"NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			
@@ -56,7 +56,8 @@ row_to_add=[date,"NA","NA",
 			"NA","NA","NA",
 			
 			"NA","NA","NA", 
-			"NA","NA","NA",default_home_name]
+			"NA","NA","NA","NA",default_home_name]
+row_to_add=empty_row
 
 
 month_name_fr=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"]
@@ -383,22 +384,9 @@ class Good_Practice(wx.Panel):
 	def add_new_row(self,event):# could be used to transfer standard values in text controls
 		global row_to_add
 		global frame
+		global empty_row
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
-		row_to_add=[date,"NA","NA",
-			"NA","NA","NA",
-			"NA","NA","NA",
-			
-			"NA","NA","NA",
-			"NA","NA","NA",
-			"NA","NA","NA",
-			
-			"NA","NA","NA",
-			"NA","NA","NA",
-			"NA","NA","NA",
-			"NA","NA","NA",
-			
-			"NA","NA","NA", 
-			"NA","NA","NA",default_home_name]
+		row_to_add=empty_row
 		blind_add_row(row_to_add)
 		frame.Close()
 		frame = Main_Form(None,Software_Name)
@@ -706,7 +694,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
 		for i in range(17):
-			if row_to_add[Results_and_problems_origin+i+1]==1:
+			if row_to_add[Results_and_problems_origin+i+2]==1:
 				self.chk[i].SetValue(True)
 
 		
@@ -755,7 +743,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		print len(chk_string)
 		for i in range(len(self.chk)):
 			print i
-			row_to_add[Results_and_problems_origin+1+i]=chk_string[i]
+			row_to_add[Results_and_problems_origin+2+i]=chk_string[i]
 		print row_to_add
 		new_day_row(row_to_add)
 		
