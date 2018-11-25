@@ -57,7 +57,12 @@ empty_row=[date,"NA","NA",
 			
 			"NA","NA","NA", 
 			"NA","NA","NA","NA",default_home_name]
-row_to_add=empty_row
+
+row_to_add=[]
+i=-1
+for value in empty_row:
+	i+=1
+	row_to_add.append(empty_row[i])
 
 
 month_name_fr=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"]
@@ -380,17 +385,33 @@ class Good_Practice(wx.Panel):
 		pass
 		
 		
-	def add_new_row(self,event):# could be used to transfer standard values in text controls
+	def add_new_row(self,event):# adds empty row
 		global row_to_add
 		global frame
 		global empty_row
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
-		row_to_add=empty_row
+		i=-1
+		row_to_add=[]
+		for value in empty_row:
+			i+=1
+			row_to_add.append(empty_row[i])
+
+		print "empty row",empty_row
 		blind_add_row(row_to_add)
 		frame.Close()
 		frame = Main_Form(None,Software_Name)
 		app.SetTopWindow(frame)
 		frame.Show()
+		list_entry=get_string_coord(sheet, date)
+		print "loading added row"
+		# this should be a separate procedure
+		i=-1
+		for cell in range(len(row_to_add)):
+			i+=1
+			occurences=get_string_coord(sheet, date)
+			#print occurences
+			row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
+		print row_to_add
 		#print frame.text.GetValue()
 	
 		
@@ -662,8 +683,8 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		#----------------------------------------------- container creation
 
 		fgs_container = wx.FlexGridSizer(2, 2, 9, 25)
-		fgs_dream_quality = wx.FlexGridSizer(10, 1, 9, 25)
-		fgs_problems=wx.FlexGridSizer(10, 1, 9, 25)
+		fgs_dream_quality = wx.FlexGridSizer(12, 1, 9, 25)
+		fgs_problems=wx.FlexGridSizer(12, 1, 9, 25)
 		#--------------------------------------------------- panel start
 		wx.Panel.__init__(self, parent)
 		bSizer  = wx.BoxSizer( wx.VERTICAL )
@@ -680,6 +701,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Blissfull Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Mystic Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Learning Dream'))
+		self.chk.append(wx.CheckBox(self, -1, 'Teaching Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Advice Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Warn Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Outlet Dream'))
@@ -692,10 +714,11 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Animal disturbance'))
 		self.chk.append(wx.CheckBox(self, -1, 'Human disturbance'))
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit disturbance'))
+		self.chk.append(wx.CheckBox(self, -1, 'Agitation'))
 		self.chk.append(wx.CheckBox(self, -1, 'Total blackout'))
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
-		for i in range(17):
+		for i in range(21):
 			if row_to_add[Results_and_problems_origin+i+2]==1:
 				self.chk[i].SetValue(True)
 
@@ -705,8 +728,8 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.button3 = wx.Button(self, label="Record Form")
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
 		
-		fgs_dream_quality.AddMany(self.chk[0:10])
-		fgs_problems.AddMany(self.chk[10:20])
+		fgs_dream_quality.AddMany(self.chk[0:11])
+		fgs_problems.AddMany(self.chk[11:22])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
 		
