@@ -261,7 +261,7 @@ class Good_Practice(wx.Panel):
 		self.rb2.append(wx.RadioButton(self, label="NA"))
 		self.rb2[13].SetValue(False)
 		for i in range(12):
-			if row_to_add[Good_practice_origin+5]==diner_note[i]:
+			if row_to_add[Good_practice_origin+6]==diner_note[i]:
 				self.rb2[i].SetValue(True)
 			if Skip_first_entry:
 				self.rb2[13].SetValue(True)
