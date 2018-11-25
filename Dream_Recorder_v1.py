@@ -315,14 +315,13 @@ class Good_Practice(wx.Panel):
 		if row_to_add[Good_practice_origin+5]==45:
 			self.rb4[3].SetValue(True)
 		
-		
 		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
 		self.chk.append(wx.CheckBox(self, -1, 'Practice acceptance dialog'))
 		self.chk.append(wx.CheckBox(self, -1, 'Spoken prayers'))	
 		
 		for i in range(3):
-			if row_to_add[Good_practice_origin+i+1]==1:
+			if row_to_add[Good_practice_origin+i+2]==1:
 				self.chk[i].SetValue(True)
 
 		#reality checks
@@ -460,6 +459,7 @@ class Good_Practice(wx.Panel):
 					rb2_string=diner_note[i]
 					row_to_add[Good_practice_origin+6]=rb2_string
 					break
+					
 		i=-1#reality check
 		for values in self.rb5:
 			i+=1
@@ -468,7 +468,8 @@ class Good_Practice(wx.Panel):
 				rb5_string=reality_check[i]
 				row_to_add[Good_practice_origin]=rb5_string
 				break
-		#more practice
+				
+		#improving practice
 		i=-1
 		for values in self.chk:
 			i+=1
@@ -479,9 +480,10 @@ class Good_Practice(wx.Panel):
 				one_checked=True
 			else:
 				row_to_add[Good_practice_origin+2+i]=0
+				
 		#zazen
 		if self.text_zazen.GetValue()!="":
-			row_to_add[8]=int(self.text_zazen.GetValue())
+			row_to_add[Good_practice_origin+5]=int(self.text_zazen.GetValue())
 		else:
 			i=-1
 			for values in self.rb6:
