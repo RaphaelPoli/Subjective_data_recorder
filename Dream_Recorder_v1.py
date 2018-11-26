@@ -58,7 +58,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA", 
 			"NA","NA","NA",
 			
-			"NA","NA","NA","NA",default_home_name]
+			"NA","NA","NA","NA","NA",default_home_name]
 
 row_to_add=[]
 i=-1
