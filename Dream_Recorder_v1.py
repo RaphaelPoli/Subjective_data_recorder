@@ -53,10 +53,12 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
+			
+			"NA","NA","NA",
+			"NA","NA","NA", 
 			"NA","NA","NA",
 			
-			"NA","NA","NA", 
-			"NA","NA","NA","NA","NA",default_home_name]
+			"NA","NA","NA","NA",default_home_name]
 
 row_to_add=[]
 i=-1
@@ -716,10 +718,11 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Human disturbance'))
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit disturbance'))
 		self.chk.append(wx.CheckBox(self, -1, 'Agitation'))
+		self.chk.append(wx.CheckBox(self, -1, 'Breathing difficulty'))
 		self.chk.append(wx.CheckBox(self, -1, 'Total blackout'))
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
-		for i in range(21):
+		for i in range(23):
 			if row_to_add[Results_and_problems_origin+i+2]==1:
 				self.chk[i].SetValue(True)
 
@@ -730,7 +733,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
 		
 		fgs_dream_quality.AddMany(self.chk[0:12])
-		fgs_problems.AddMany(self.chk[12:23])
+		fgs_problems.AddMany(self.chk[12:24])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
 		
@@ -765,8 +768,8 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 			else:
 				chk_string.append(0)	
 		print len(self.chk)
-		print len(row_to_add)
-		print len(chk_string)
+		print "length of dream quality file", len(row_to_add)
+		print "length of dream quality string",len(chk_string)
 		for i in range(len(self.chk)):
 			print i
 			row_to_add[Results_and_problems_origin+2+i]=chk_string[i]
