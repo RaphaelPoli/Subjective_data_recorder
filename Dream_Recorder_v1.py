@@ -56,7 +56,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA",
 			
 			"NA","NA","NA", 
-			"NA","NA","NA","NA",default_home_name]
+			"NA","NA","NA","NA","NA",default_home_name]
 
 row_to_add=[]
 i=-1
@@ -683,8 +683,8 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		#----------------------------------------------- container creation
 
 		fgs_container = wx.FlexGridSizer(2, 2, 9, 25)
-		fgs_dream_quality = wx.FlexGridSizer(12, 1, 9, 25)
-		fgs_problems=wx.FlexGridSizer(12, 1, 9, 25)
+		fgs_dream_quality = wx.FlexGridSizer(7, 2, 9, 25)
+		fgs_problems=wx.FlexGridSizer(7, 2, 9, 25)
 		#--------------------------------------------------- panel start
 		wx.Panel.__init__(self, parent)
 		bSizer  = wx.BoxSizer( wx.VERTICAL )
@@ -705,6 +705,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Advice Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Warn Dream'))
 		self.chk.append(wx.CheckBox(self, -1, 'Outlet Dream'))
+		self.chk.append(wx.CheckBox(self, -1, 'Repairing Dream'))
 		
 		self.chk.append(wx.CheckBox(self, -1, 'Bad remembering'))
 		self.chk.append(wx.CheckBox(self, -1, 'Nightmare'))
@@ -728,8 +729,8 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.button3 = wx.Button(self, label="Record Form")
 		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
 		
-		fgs_dream_quality.AddMany(self.chk[0:11])
-		fgs_problems.AddMany(self.chk[11:22])
+		fgs_dream_quality.AddMany(self.chk[0:12])
+		fgs_problems.AddMany(self.chk[12:23])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
 		bSizer.Add(fgs_container, wx.ALL)
 		
