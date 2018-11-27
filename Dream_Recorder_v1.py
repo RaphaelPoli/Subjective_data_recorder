@@ -391,6 +391,7 @@ class Good_Practice(wx.Panel):
 		global row_to_add
 		global frame
 		global empty_row
+		global output_file
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 		i=-1
 		row_to_add=[]
@@ -404,13 +405,16 @@ class Good_Practice(wx.Panel):
 		frame = Main_Form(None,Software_Name)
 		app.SetTopWindow(frame)
 		frame.Show()
-		list_entry=get_string_coord(sheet, date)
-		print "loading added row"
 		# this should be a separate procedure
+		print "loading added row"
+		
+		sheet = get_data(output_file)["Sheet1"]
+		list_entry=get_string_coord(sheet, date)
+		
 		i=-1
+		occurences=get_string_coord(sheet, date)
 		for cell in range(len(row_to_add)):
 			i+=1
-			occurences=get_string_coord(sheet, date)
 			#print occurences
 			row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
 		print row_to_add
