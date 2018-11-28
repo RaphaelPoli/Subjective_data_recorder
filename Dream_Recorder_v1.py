@@ -906,7 +906,7 @@ class Main_Form(wx.Frame):
 		sheet = get_data(output_file)["Sheet1"]
 		occurences=get_string_coord(sheet, date)
 		today_n_of_row=len(occurences)
-		Today_Dream_filename=date=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
+		Today_Dream_filename=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
 
 		if occurences==[]:
 			
