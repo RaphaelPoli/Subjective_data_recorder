@@ -11,18 +11,24 @@ I propose here to use data science to observe your practice of lucid dream. The 
 
 ### installation
 
-##install python 2.7 
+## install python 2.7 
 
-##create a folder and put .py and .xls in it
+## create a folder and put .py and .xls in it
 
-##install dependencies (all modules after "import" keyword at the start of the .py code
+## install dependencies (all modules after "import" keyword at the start of the .py code
 (pyexcel, odf, wx)
 
 With ubuntu:
+
+
 pyexcel
+
 sudo apt-get install python-pip
+
 sudo pip install pyexcel
+
 sudo pip install pyexcel-ods
+
 sudo pip install pyexcel-xls
 
 odf
@@ -33,7 +39,7 @@ sudo apt-get install python-wxgtk3.0
 
 
 
-##type in a console from the created folder>python Dream_Recorder_v1.py
+## type in a console from the created folder>python Dream_Recorder_v1.py
 
 
 the software should start and an interface should appear
