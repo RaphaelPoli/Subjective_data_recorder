@@ -281,16 +281,23 @@ class Good_Practice(wx.Panel):
 		self.rb3.append(wx.RadioButton(self, label="22h30"))
 		self.rb3.append(wx.RadioButton(self, label="23h00"))
 		self.rb3.append(wx.RadioButton(self, label="23h30"))
+		standard_hour=False
 		if row_to_add[Time_origin+1]==u"22h00":
 			self.rb3[0].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+1]==u"22h30":
 			self.rb3[1].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+1]==u"23h00":
 			self.rb3[2].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+1]==u"23h30":
 			self.rb3[3].SetValue(True)
+			standard_hour=True
 			
 		self.text_evening=wx.TextCtrl(self)
+		if not standard_hour:
+			self.text_evening.SetValue(row_to_add[Time_origin+1])
 		
 		
 		# get up time
@@ -299,29 +306,50 @@ class Good_Practice(wx.Panel):
 		self.rb4.append(wx.RadioButton(self, label="07h30"))
 		self.rb4.append(wx.RadioButton(self, label="08h"))
 		print "testing",row_to_add[Time_origin+2]
+		
+		standard_hour=False
 		if row_to_add[Time_origin+2]==u"08h":
 			self.rb4[3].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+2]==u"07h07":
 			self.rb4[1].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+2]==u"07h30":
 			self.rb4[2].SetValue(True)
+			standard_hour=True
 		if row_to_add[Time_origin+2]==u"06h06":
 			self.rb4[0].SetValue(True)
-	
+			standard_hour=True
+		
+		self.text_morning=wx.TextCtrl(self)
+		if not standard_hour:
+			self.text_morning.SetValue(row_to_add[Time_origin+2])
+		
 		#meditation
+	
 		self.rb6.append(wx.RadioButton(self, label="0min",style=wx.RB_GROUP))
 		self.rb6.append(wx.RadioButton(self, label="24min"))
 		self.rb6.append(wx.RadioButton(self, label="30min"))
 		self.rb6.append(wx.RadioButton(self, label="45min"))
-		self.text_zazen=wx.TextCtrl(self)
+	
+		standard_time=False
 		if row_to_add[Good_practice_origin+5]==0:
 			self.rb4[0].SetValue(True)
+			standard_time=True
 		if row_to_add[Good_practice_origin+5]==24:
 			self.rb4[1].SetValue(True)
+			standard_time=True
 		if row_to_add[Good_practice_origin+5]==30:
 			self.rb4[2].SetValue(True)
+			standard_time=True
 		if row_to_add[Good_practice_origin+5]==45:
 			self.rb4[3].SetValue(True)
+			standard_time=True
+		
+		self.text_zazen=wx.TextCtrl(self)
+		if not standard_time:
+			self.text_zazen.SetValue(row_to_add[Time_origin+5])
+		
 		
 		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
@@ -345,7 +373,7 @@ class Good_Practice(wx.Panel):
 			if row_to_add[Good_practice_origin]==reality_check[i]:
 				self.rb5[i].SetValue(True)
 			
-		self.text_morning=wx.TextCtrl(self)
+	
 		#print (len(self.rb3))
 		#self.rb1[9].SetValue(True)
 		self.button3 = wx.Button(self, label="Record on last Entry")
