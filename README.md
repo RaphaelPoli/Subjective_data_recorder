@@ -1,21 +1,21 @@
 # Subjective_data_recorder
 
-### Overview
+## Overview
 This is a data recorder coded for lucid dream practice. It can be adapted for any subjective frequent data input.
 The principle is just a wx interface related to a xls file.
 Procedures in there can be usefull for any data collection, subjective data but also measures with arduino.
 
-### lucid dream practice
+## lucid dream practice
 Lucid dream is a practice that allows one to live awake experiences in the dream world. It has been researched by Stephen Laberge in the 70s. It has been a buddhist practice for tens of centuries. 
 I propose here to use data science to observe your practice of lucid dream. The observation already plays a good role in improving the quantity of result or the quality of sleep. A whole load of statistics are possible along the collected data that represents 36 variables in each row. Many rows a day is now possible, although certain values will not be relevant at each entry.
 
-### installation
+## installation
 
-## install python 2.7 
+### install python 2.7 
 
-## create a folder and put .py and .xls in it
+### create a folder and put .py and .xls in it
 
-## install dependencies (all modules after "import" keyword at the start of the .py code
+### install dependencies (all modules after "import" keyword at the start of the .py code
 (pyexcel, odf, wx)
 
 With ubuntu:
@@ -44,7 +44,7 @@ sudo apt-get install python-wxgtk3.0
 
 the software should start and an interface should appear
 
-### usage
+## usage
 each tab contains some data forms to fill. I usually start with "Dream Report"
 I fill the dream report, record it (a tmp file is created and a partial ods file)
 I fill the day recall and record it (the ods file is created with both texts)
