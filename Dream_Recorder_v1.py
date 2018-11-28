@@ -258,72 +258,74 @@ class Good_Practice(wx.Panel):
 				
 		#diner rate
 
-		diner_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 13
-		for n in range(13):
+		diner_note=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
+		for n in range(14):
 			if (n==0):
-				self.rb2.append(wx.RadioButton(self, label=str(n+1),style=wx.RB_GROUP))
+				self.rb2.append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
 			else:
-				self.rb2.append(wx.RadioButton(self, label=str(n+1)))
+				self.rb2.append(wx.RadioButton(self, label=str(n)))
 			self.rb2[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb2[n].SetValue(False)
 		self.rb2.append(wx.RadioButton(self, label="NA"))
-		self.rb2[13].SetValue(False)
+		self.rb2[14].SetValue(False)
 		for i in range(12):
 			if row_to_add[Good_practice_origin+6]==diner_note[i]:
 				self.rb2[i].SetValue(True)
-			if Skip_first_entry:
-				self.rb2[13].SetValue(True)
+			if Skip_first_entry:#setting to NA if more than one row
+				self.rb2[14].SetValue(True)
 		
 		
 		
 		# bed time
+		bedtime_index=1
 		self.rb3.append(wx.RadioButton(self, label="22h00",style=wx.RB_GROUP))
 		self.rb3.append(wx.RadioButton(self, label="22h30"))
 		self.rb3.append(wx.RadioButton(self, label="23h00"))
 		self.rb3.append(wx.RadioButton(self, label="23h30"))
 		standard_hour=False
-		if row_to_add[Time_origin+1]==u"22h00":
+		if row_to_add[Time_origin+bedtime_index]==u"22h00":
 			self.rb3[0].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+1]==u"22h30":
+		if row_to_add[Time_origin+bedtime_index]==u"22h30":
 			self.rb3[1].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+1]==u"23h00":
+		if row_to_add[Time_origin+bedtime_index]==u"23h00":
 			self.rb3[2].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+1]==u"23h30":
+		if row_to_add[Time_origin+bedtime_index]==u"23h30":
 			self.rb3[3].SetValue(True)
 			standard_hour=True
 			
 		self.text_evening=wx.TextCtrl(self)
-		if not standard_hour:
-			self.text_evening.SetValue(row_to_add[Time_origin+1])
+		if not standard_hour and row_to_add[Time_origin+bedtime_index]!="NA" :
+			self.text_evening.SetValue(row_to_add[Time_origin+bedtime_index])
 		
 		
 		# get up time
+		getuptime_index=2
 		self.rb4.append(wx.RadioButton(self, label="06h06",style=wx.RB_GROUP))
 		self.rb4.append(wx.RadioButton(self, label="07h07"))
 		self.rb4.append(wx.RadioButton(self, label="07h30"))
 		self.rb4.append(wx.RadioButton(self, label="08h"))
-		print "testing",row_to_add[Time_origin+2]
+		print "testing",row_to_add[Time_origin+getuptime_index]
 		
 		standard_hour=False
-		if row_to_add[Time_origin+2]==u"08h":
+		if row_to_add[Time_origin+getuptime_index]==u"08h":
 			self.rb4[3].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+2]==u"07h07":
+		if row_to_add[Time_origin+getuptime_index]==u"07h07":
 			self.rb4[1].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+2]==u"07h30":
+		if row_to_add[Time_origin+getuptime_index]==u"07h30":
 			self.rb4[2].SetValue(True)
 			standard_hour=True
-		if row_to_add[Time_origin+2]==u"06h06":
+		if row_to_add[Time_origin+getuptime_index]==u"06h06":
 			self.rb4[0].SetValue(True)
 			standard_hour=True
 		
 		self.text_morning=wx.TextCtrl(self)
-		if not standard_hour:
-			self.text_morning.SetValue(row_to_add[Time_origin+2])
+		if (not standard_hour) and row_to_add[Time_origin+getuptime_index]!="NA" :
+			self.text_morning.SetValue(row_to_add[Time_origin+getuptime_index])
 		
 		#meditation
 	
@@ -348,7 +350,7 @@ class Good_Practice(wx.Panel):
 		
 		self.text_zazen=wx.TextCtrl(self)
 		if not standard_time:
-			self.text_zazen.SetValue(row_to_add[Time_origin+5])
+			self.text_zazen.SetValue(str(row_to_add[Time_origin+5]))
 		
 		
 		# improving practices
@@ -461,13 +463,13 @@ class Good_Practice(wx.Panel):
 		global row_to_add
 		global Time_origin
 		global Results_and_problems_origin
-		hours_evening=["22h","22h30","23h","23h30"]
+		hours_evening=["22h00","22h30","23h00","23h30"]
 		hours_morning=["06h06","07h07","7h30","08h"]
 		zazen_minutes=[0,24,30,45]
 		#rest_note=map(str,range(13))[1:13]#cette ligne génère une chaine de douze chiffres de 1 à 12
 		rest_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 12
 		reality_check=range(8)[0:8]
-		diner_note=rest_note
+		diner_rate=range(13)
 		print reality_check
 		
 		#wake up time
@@ -509,7 +511,7 @@ class Good_Practice(wx.Panel):
 				
 				
 		i=-1#diner rate
-		if self.rb2[13].GetValue():#"If NA is checked don't look at the rate"
+		if self.rb2[14].GetValue():#"If NA is checked don't look at the rate"
 			print "NA checked"
 			row_to_add[Good_practice_origin+6]="NA"
 		else:
@@ -517,7 +519,7 @@ class Good_Practice(wx.Panel):
 				i+=1
 				rb2_string="NA"
 				if values.GetValue():
-					rb2_string=diner_note[i]
+					rb2_string=diner_rate[i]
 					row_to_add[Good_practice_origin+6]=rb2_string
 					break
 					
@@ -544,7 +546,10 @@ class Good_Practice(wx.Panel):
 				
 		#zazen
 		if self.text_zazen.GetValue()!="":
-			row_to_add[Good_practice_origin+5]=int(self.text_zazen.GetValue())
+			if self.text_zazen.GetValue()=="NA":
+				row_to_add[Good_practice_origin+5]="NA"
+			else:
+				row_to_add[Good_practice_origin+5]=int(self.text_zazen.GetValue())
 		else:
 			i=-1
 			for values in self.rb6:
