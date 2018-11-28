@@ -75,7 +75,8 @@ Day_recall=""
 month_number=datetime.datetime.strftime(datetime.datetime.now(),"%m")
 day_number=str(datetime.datetime.strftime(datetime.datetime.now(),"%d"))
 year_number=datetime.datetime.strftime(datetime.datetime.now(),"%Y")
-Today_Dream_filename=date=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number
+today_n_of_row=0
+Today_Dream_filename=date=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
 Dream_report_tmp="dream_report_today"
 Day_recall_tmp="day_recall_tmp"
 
@@ -392,30 +393,35 @@ class Good_Practice(wx.Panel):
 		global frame
 		global empty_row
 		global output_file
+		global today_n_of_row
+		global Today_Dream_filename
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 		i=-1
 		row_to_add=[]
 		for value in empty_row:
 			i+=1
 			row_to_add.append(empty_row[i])
-
+		
 		print "empty row",empty_row
 		blind_add_row(row_to_add)
+		today_n_of_row=today_n_of_row+1
+		Today_Dream_filename=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
+
 		frame.Close()
 		frame = Main_Form(None,Software_Name)
 		app.SetTopWindow(frame)
 		frame.Show()
 		# this should be a separate procedure
 		print "loading added row"
-		
+		print "date",date
 		sheet = get_data(output_file)["Sheet1"]
-		list_entry=get_string_coord(sheet, date)
 		
 		i=-1
 		occurences=get_string_coord(sheet, date)
+		print occurences
 		for cell in range(len(row_to_add)):
 			i+=1
-			#print occurences
+			
 			row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
 		print row_to_add
 		#print frame.text.GetValue()
@@ -525,7 +531,7 @@ class Good_Practice(wx.Panel):
 		
 			
 		
-class Dream_report(wx.Panel):
+class Dream_Report(wx.Panel):
 	def __init__(self, parent, title):
 		#----------------------------------------------- container creation
 
@@ -860,10 +866,17 @@ class Main_Form(wx.Frame):
 	def __init__(self, parent, title, pos=(10,10)):
 		#self.Move(wx.Point(100,100))
 		global Skip_first_entry
+		global today_n_of_row
+		global Today_Dream_filename
 		# -------------------------------main backend------------------------------------------------
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
-		
-		if get_string_coord(sheet, date)==[]:
+		sheet = get_data(output_file)["Sheet1"]
+		occurences=get_string_coord(sheet, date)
+		today_n_of_row=len(occurences)
+		Today_Dream_filename=date=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
+
+		if occurences==[]:
+			
 			row_to_add[0]=date
 			new_day_row(row_to_add)
 			"You did not run the program today creating new row"
@@ -878,7 +891,6 @@ class Main_Form(wx.Frame):
 			i=-1
 			for cell in range(len(row_to_add)):
 				i+=1
-				occurences=get_string_coord(sheet, date)
 				#print occurences
 				row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
 			print row_to_add
@@ -894,7 +906,7 @@ class Main_Form(wx.Frame):
 		# Create the tab windows
 		tab1 = Good_Practice (nb, "Good Practice" )
 		tab5 = Bad_Practice(nb,"Bad Practice")
-		tab3 = Dream_report(nb,"Dream Report")
+		tab3 = Dream_Report(nb,"Dream Report")
 		tab2 = Dream_Quality(nb,"Dream Quality")
 		#tab5 = Directories(nb,"Directories")
 		# Add the windows to tabs and name them.
