@@ -349,9 +349,10 @@ class Good_Practice(wx.Panel):
 			standard_time=True
 		
 		self.text_zazen=wx.TextCtrl(self)
-		if not standard_time:
+		if not standard_time :
 			self.text_zazen.SetValue(str(row_to_add[Time_origin+5]))
-		
+			if row_to_add[Time_origin+bedtime_index]!="NA":
+				self.text_zazen.SetValue("NA")
 		
 		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
