@@ -21,7 +21,7 @@ I propose here to use data science to observe your practice of lucid dream. The 
 With ubuntu:
 
 
-pyexcel
+#### pyexcel
 
 sudo apt-get install python-pip
 
@@ -31,10 +31,12 @@ sudo pip install pyexcel-ods
 
 sudo pip install pyexcel-xls
 
-odf
+#### odf
+
 sudo apt-get install python-odf python-odf-doc python-odf-tools
 
-wx
+#### wx
+
 sudo apt-get install python-wxgtk3.0
 
 
