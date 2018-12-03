@@ -41,7 +41,9 @@ sudo apt-get install python-wxgtk3.0
 
 
 
-## type in a console from the created folder>python Dream_Recorder_v1.py
+## type in a console from the created folder
+
+>python Dream_Recorder_v1.py
 
 
 the software should start and an interface should appear
@@ -61,5 +63,7 @@ I then copy the xls and ods files that have been generated into an other folder 
 
 After one month we already have good overview of sleep improvements thru practice.
 
+## known issues
+see this section in github
 
 
