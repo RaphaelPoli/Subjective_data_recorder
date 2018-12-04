@@ -470,7 +470,7 @@ class Good_Practice(wx.Panel):
 		#rest_note=map(str,range(13))[1:13]#cette ligne génère une chaine de douze chiffres de 1 à 12
 		rest_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 12
 		reality_check=range(8)[0:8]
-		diner_rate=range(13)
+		diner_rate=range(14)
 		print reality_check
 		
 		#wake up time
@@ -602,6 +602,8 @@ class Dream_Report(wx.Panel):
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
+	
+	# ------------------------------------------------- panel methods ---------------------------------------------------
 	
 	def SetVal(self,event):
 		state1 = self.rb1.GetValue()
@@ -788,6 +790,9 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.SetSizer(bSizer2)
 	
 	
+	
+		# ------------------------------------------------- panel methods ---------------------------------------------------
+
 	def SetVal(self,event):
 		state1 = self.rb1.GetValue()
 		state2 = self.rb2.GetValue()
@@ -861,6 +866,9 @@ class Bad_Practice(wx.Panel):
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
 	
+	
+		# ------------------------------------------------- panel methods ---------------------------------------------------
+
 	
 	def SetVal(self,event):
 		state1 = self.rb1.GetValue()
