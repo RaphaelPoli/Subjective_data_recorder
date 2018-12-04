@@ -335,17 +335,19 @@ class Good_Practice(wx.Panel):
 		self.rb6.append(wx.RadioButton(self, label="45min"))
 	
 		standard_time=False
+		print "zazen loaded", row_to_add[Good_practice_origin+5]
+		print type(row_to_add[Good_practice_origin+5])
 		if row_to_add[Good_practice_origin+5]==0:
-			self.rb4[0].SetValue(True)
+			self.rb6[0].SetValue(True)
 			standard_time=True
 		if row_to_add[Good_practice_origin+5]==24:
-			self.rb4[1].SetValue(True)
+			self.rb6[1].SetValue(True)
 			standard_time=True
 		if row_to_add[Good_practice_origin+5]==30:
-			self.rb4[2].SetValue(True)
+			self.rb6[2].SetValue(True)
 			standard_time=True
 		if row_to_add[Good_practice_origin+5]==45:
-			self.rb4[3].SetValue(True)
+			self.rb6[3].SetValue(True)
 			standard_time=True
 		
 		self.text_zazen=wx.TextCtrl(self)
