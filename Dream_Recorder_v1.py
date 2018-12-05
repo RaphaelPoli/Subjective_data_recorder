@@ -58,7 +58,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA", 
 			"NA","NA","NA",
 			
-			"NA","NA","NA","NA","NA",default_home_name]
+			"NA","NA","NA","NA","NA",default_home_name,"NA"]
 
 row_to_add=[]
 i=-1
@@ -590,15 +590,13 @@ class Dream_Report(wx.Panel):
 		#self.rb1[9].SetValue(True)
 		self.day_recall=wx.TextCtrl(self,size=(480,350), style = wx.TE_MULTILINE)
 		self.report=wx.TextCtrl(self,size=(480,350), style = wx.TE_MULTILINE, value=u"")
-		self.button3 = wx.Button(self, label="Record Day Recall")
-		self.Bind(wx.EVT_BUTTON, self.Click_day_recall, self.button3)
-		self.button4 = wx.Button(self, label="Record Dream Report")
-		self.Bind(wx.EVT_BUTTON, self.Click_dream_report, self.button4)
-		
+		self.button3 = wx.Button(self, label="Record both")
+		self.Bind(wx.EVT_BUTTON, self.Click_day_recall, self.button3)#should rename this procedure
+
 		self.report.SetFont(font)
 		self.day_recall.SetFont(font)
 		fgs_d_recall.AddMany([self.day_recall,self.button3])
-		fgs_d_report.AddMany([self.report,self.button4])
+		fgs_d_report.AddMany([self.report])
 		fgs_container.AddMany([fgs_d_report,fgs_d_recall])
 		bSizer.Add(fgs_container, wx.ALL)
 			
@@ -615,40 +613,6 @@ class Dream_Report(wx.Panel):
 		if state2: 
 			print "Tone"
 		
-	def Click_dream_report(self,event):
-		global Today_Dream_filename
-		global Dream_report_tmp
-		global Dream_report
-		global Day_recall
-		
-		Dream_report=self.report.GetValue()
-		
-		print Dream_report
-		
-		
-		textdoc = OpenDocumentText()
-		tmpdoc= OpenDocumentText()
-		
-		s = textdoc.styles#here we define a style for Red font
-		bluestyle = Style(name="blue", family="paragraph")
-		bluestyle.addElement(TextProperties(attributes={'color':"#0000bf"}))
-		s.addElement(bluestyle)
-	
-	
-		#safeguard dream report
-			
-		p = P(text= Dream_report)
-		tmpdoc.text.addElement(p)
-	
-		p = P(text= Dream_report)
-		textdoc.text.addElement(p)
-		
-		print"Saving", "./"+Today_Dream_filename
-		textdoc.save(u"./"+Today_Dream_filename, True)#unicode is important!!
-		print"Saving", Dream_report_tmp
-		tmpdoc.save(u"./"+Dream_report_tmp, True)
-	
-			
 				
 	def Click_day_recall(self,event):# recording in an open document the day recall text box
 		global Today_Dream_filename
@@ -659,11 +623,13 @@ class Dream_Report(wx.Panel):
 		global Time_origin
 		
 		Day_recall=self.day_recall.GetValue()
+		Dream_report=self.report.GetValue()
 		
 		print Day_recall
 		
 		textdoc = OpenDocumentText()
-		tmpdoc= OpenDocumentText()
+		tmpdoc_recall= OpenDocumentText()
+		tmpdoc_dream= OpenDocumentText()
 		
 		s = textdoc.styles#here we define a style for Red font
 		bluestyle = Style(name="blue", family="paragraph")
@@ -672,7 +638,11 @@ class Dream_Report(wx.Panel):
 		
 		# saving day_recall input to a tmp file in case of crash and to reload it at next start up if in current day
 		p = P(text= Day_recall)
-		tmpdoc.text.addElement(p)
+		tmpdoc_recall.text.addElement(p)
+	
+		p = P(text= Dream_report)
+		tmpdoc_dream.text.addElement(p)
+	
 		
 		# date inside document
 		#here there might be an existing procedure, 
@@ -683,10 +653,7 @@ class Dream_Report(wx.Panel):
 		year_number=datetime.datetime.strftime(datetime.datetime.now(),"%Y")
 	
 		date_string=day_number.zfill(2)+" "+month_name_fr[int(month_number)-1]+" "+year_number
-		
-		p = P(text=date_string)
-		tmpdoc.text.addElement(p)
-		
+			
 		h = H(text= date_string, stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
 		
@@ -718,15 +685,13 @@ class Dream_Report(wx.Panel):
 		p = P(text= Dream_report)
 		textdoc.text.addElement(p)
 		
-		p = P(text= Dream_report)
-		tmpdoc.text.addElement(p)
-		
 		print"Saving", "./"+Today_Dream_filename
 		textdoc.save(u"./"+Today_Dream_filename, True)#unicode is important!!
 		print"Saving", Day_recall_tmp
-		tmpdoc.save(u"./"+Day_recall_tmp, True)
+		tmpdoc_recall.save(u"./"+Day_recall_tmp, True)
+		print"Saving", Dream_report_tmp
+		tmpdoc_dream.save(u"./"+Dream_report_tmp, True)
 	
-		
 		
 class Dream_Quality(wx.Panel):# tab with Results and problems
 	def __init__(self, parent, title):
