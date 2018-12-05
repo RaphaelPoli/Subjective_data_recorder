@@ -33,10 +33,11 @@ print wx.PlatformInfo
 default_home_name="La cella"
 output_file=u'lucid_dream_data_2018-2019.xls'
 
+number_of_improving_practices=5
 Time_origin=0
 Good_practice_origin=5
-Bad_practice_origin=Good_practice_origin+7
-Results_and_problems_origin=Bad_practice_origin+3
+Bad_practice_origin=Good_practice_origin+2+number_of_improving_practices+2
+Results_and_problems_origin=Bad_practice_origin+3+1
 
 Skip_first_entry=False
 
@@ -58,6 +59,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA", 
 			"NA","NA","NA",
 			
+			"NA","NA","NA",
 			"NA","NA","NA","NA","NA",default_home_name,"NA"]
 
 row_to_add=[]
@@ -132,7 +134,6 @@ def blind_add_row(row):
 	book.Sheet1.row+= row
 	book.save_as(output_file)
 	
-	
 #the next procedure writes into a cell but cannot access unexisting cells please add rows to do that
 def Insert_cell(x=1,y=1,value="Writing here"):#this procedure uses an xls file and pyexcel the other should be harmonized
 	
@@ -197,6 +198,8 @@ class Good_Practice(wx.Panel):
 	def __init__(self, parent, title):
 		#----------------------------------------------- container creation
 		global Skip_first_entry
+		global number_of_improving_practices
+		
 		fgs_container = wx.FlexGridSizer(4, 2, 9, 25)
 		fgs_buttons = wx.FlexGridSizer(1, 2, 9, 25)
 		fgs_reality_check=wx.FlexGridSizer(1, 8, 9, 12)
@@ -209,7 +212,7 @@ class Good_Practice(wx.Panel):
 		fgs_notes=wx.FlexGridSizer(2, 2, 9, 50)
 		fgs_time=wx.FlexGridSizer(2, 2, 9, 50)
 		fgs_hours=wx.FlexGridSizer(1, 2, 9, 50)
-		fgs_more_practice=wx.FlexGridSizer(2, 2, 9, 50)
+		fgs_more_practice=wx.FlexGridSizer(3, 2, 9, 50)
 		
 		fgs_morning_choice=wx.FlexGridSizer(2,2,9,12)
 		fgs_evening_choice=wx.FlexGridSizer(2,2,9,12)
@@ -335,33 +338,35 @@ class Good_Practice(wx.Panel):
 		self.rb6.append(wx.RadioButton(self, label="45min"))
 	
 		standard_time=False
-		print "zazen loaded", row_to_add[Good_practice_origin+5]
-		print type(row_to_add[Good_practice_origin+5])
-		if row_to_add[Good_practice_origin+5]==0:
+		print "zazen loaded", row_to_add[Good_practice_origin+number_of_improving_practices+2]
+		print type(row_to_add[Good_practice_origin+number_of_improving_practices+2])
+		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==0:
 			self.rb6[0].SetValue(True)
 			standard_time=True
-		if row_to_add[Good_practice_origin+5]==24:
+		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==24:
 			self.rb6[1].SetValue(True)
 			standard_time=True
-		if row_to_add[Good_practice_origin+5]==30:
+		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==30:
 			self.rb6[2].SetValue(True)
 			standard_time=True
-		if row_to_add[Good_practice_origin+5]==45:
+		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==45:
 			self.rb6[3].SetValue(True)
 			standard_time=True
 		
 		self.text_zazen=wx.TextCtrl(self)
 		if not standard_time :
-			self.text_zazen.SetValue(str(row_to_add[Time_origin+5]))
-			if row_to_add[Time_origin+bedtime_index]!="NA":
+			self.text_zazen.SetValue(str(row_to_add[Good_practice_origin+number_of_improving_practices+2]))
+			if row_to_add[Good_practice_origin+number_of_improving_practices+2]!="NA":
 				self.text_zazen.SetValue("NA")
 		
 		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
 		self.chk.append(wx.CheckBox(self, -1, 'Practice acceptance dialog'))
 		self.chk.append(wx.CheckBox(self, -1, 'Spoken prayers'))	
+		self.chk.append(wx.CheckBox(self, -1, 'Ginkgo intake'))	
+		self.chk.append(wx.CheckBox(self, -1, 'Sincerity and no gain spirit in practice'))	
 		
-		for i in range(3):
+		for i in range(len(self.chk)):
 			if row_to_add[Good_practice_origin+i+2]==1:
 				self.chk[i].SetValue(True)
 
@@ -540,9 +545,9 @@ class Good_Practice(wx.Panel):
 		for values in self.chk:
 			i+=1
 			#print 5+i,values.GetValue()
-			if values.GetValue():
+			if values.GetValue():#if checkbox is true
 				#print "assinging"
-				row_to_add[Good_practice_origin+2+i]=1
+				row_to_add[Good_practice_origin+2+i]=1# 2 is there because there are rest rate and consecutive days of good rest
 				one_checked=True
 			else:
 				row_to_add[Good_practice_origin+2+i]=0
@@ -550,9 +555,9 @@ class Good_Practice(wx.Panel):
 		#zazen
 		if self.text_zazen.GetValue()!="":
 			if self.text_zazen.GetValue()=="NA":
-				row_to_add[Good_practice_origin+5]="NA"
+				row_to_add[Good_practice_origin+number_of_improving_practices+2]="NA"
 			else:
-				row_to_add[Good_practice_origin+5]=int(self.text_zazen.GetValue())
+				row_to_add[Good_practice_origin+number_of_improving_practices+2]=int(self.text_zazen.GetValue())
 		else:
 			i=-1
 			for values in self.rb6:
@@ -560,7 +565,7 @@ class Good_Practice(wx.Panel):
 				rb6_string="NA"
 				if values.GetValue():
 					rb6_string=zazen_minutes[i]
-					row_to_add[Good_practice_origin+5]=rb6_string
+					row_to_add[Good_practice_origin+number_of_improving_practices+2]=rb6_string
 					break
 		print row_to_add
 		new_day_row(row_to_add)
@@ -813,8 +818,9 @@ class Bad_Practice(wx.Panel):
 		self.chk.append(wx.CheckBox(self, -1, 'Alcohol/Smoke/Drugs taken'))
 		self.chk.append(wx.CheckBox(self, -1, 'More than 2 coffees yesterday'))
 		self.chk.append(wx.CheckBox(self, -1, 'Screen used during last hour before sleep'))
+		self.chk.append(wx.CheckBox(self, -1, 'Emphasis in offering'))
 	
-		for i in range(3):
+		for i in range(len(self.chk)):#loading current row values into form
 			if row_to_add[Bad_practice_origin+i]==1:
 				self.chk[i].SetValue(True)
 
@@ -923,12 +929,7 @@ class Main_Form(wx.Frame):
 		nb.AddPage(tab2, "Dream Quality")
 		nb.AddPage(tab3, "Dream Report")
 		nb.AddPage(tab5, "Bad Practice")
-		
-		
-		
-		
 		#nb.AddPage(tab5, "Directories")
-			
 			
 		#final wrapping
 		sizer = wx.BoxSizer()
