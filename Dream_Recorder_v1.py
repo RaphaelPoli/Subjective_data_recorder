@@ -338,7 +338,7 @@ class Good_Practice(wx.Panel):
 		self.rb6.append(wx.RadioButton(self, label="45min"))
 	
 		standard_time=False
-		print "zazen loaded", row_to_add[Good_practice_origin+number_of_improving_practices+2]
+		print "zazen loaded", row_to_add[Good_practice_origin+number_of_improving_practices+2]#+2 for reality check and consecutive days
 		print type(row_to_add[Good_practice_origin+number_of_improving_practices+2])
 		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==0:
 			self.rb6[0].SetValue(True)
@@ -471,6 +471,7 @@ class Good_Practice(wx.Panel):
 		global row_to_add
 		global Time_origin
 		global Results_and_problems_origin
+		global Good_practice_origin
 		hours_evening=["22h00","22h30","23h00","23h30"]
 		hours_morning=["06h06","07h07","7h30","08h"]
 		zazen_minutes=[0,24,30,45]
@@ -521,14 +522,15 @@ class Good_Practice(wx.Panel):
 		i=-1#diner rate
 		if self.rb2[14].GetValue():#"If NA is checked don't look at the rate"
 			print "NA checked"
-			row_to_add[Good_practice_origin+6]="NA"
+			row_to_add[Good_practice_origin+number_of_improving_practices+3]="NA"
 		else:
 			for values in self.rb2:
 				i+=1
 				rb2_string="NA"
 				if values.GetValue():
 					rb2_string=diner_rate[i]
-					row_to_add[Good_practice_origin+6]=rb2_string
+					print "recording zazen",rb2_string,"at position",Good_practice_origin+number_of_improving_practices+3
+					row_to_add[Good_practice_origin+number_of_improving_practices+3]=rb2_string
 					break
 					
 		i=-1#reality check
@@ -565,6 +567,7 @@ class Good_Practice(wx.Panel):
 				rb6_string="NA"
 				if values.GetValue():
 					rb6_string=zazen_minutes[i]
+					print "recording zazen",rb6_string,"at position",Good_practice_origin+number_of_improving_practices+2
 					row_to_add[Good_practice_origin+number_of_improving_practices+2]=rb6_string
 					break
 		print row_to_add
