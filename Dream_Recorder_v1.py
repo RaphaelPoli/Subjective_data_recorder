@@ -272,7 +272,7 @@ class Good_Practice(wx.Panel):
 		self.rb2.append(wx.RadioButton(self, label="NA"))
 		self.rb2[14].SetValue(False)
 		for i in range(14):
-			if row_to_add[Good_practice_origin+6]==diner_note[i]:
+			if row_to_add[Good_practice_origin+number_of_improving_practices+3]==diner_note[i]:
 				self.rb2[i].SetValue(True)
 			if Skip_first_entry:#setting to NA if more than one row
 				self.rb2[14].SetValue(True)
@@ -306,10 +306,15 @@ class Good_Practice(wx.Panel):
 		
 		# get up time
 		getuptime_index=2
+		
+		# interface elements
 		self.rb4.append(wx.RadioButton(self, label="06h06",style=wx.RB_GROUP))
 		self.rb4.append(wx.RadioButton(self, label="07h07"))
 		self.rb4.append(wx.RadioButton(self, label="07h30"))
 		self.rb4.append(wx.RadioButton(self, label="08h"))
+		
+		
+		#loading data for get up time
 		print "testing",row_to_add[Time_origin+getuptime_index]
 		
 		standard_hour=False
@@ -326,10 +331,16 @@ class Good_Practice(wx.Panel):
 			self.rb4[0].SetValue(True)
 			standard_hour=True
 		
+		#if time is not standard load it, if it is not availanle load current time
 		self.text_morning=wx.TextCtrl(self)
-		if (not standard_hour) and row_to_add[Time_origin+getuptime_index]!="NA" :
-			self.text_morning.SetValue(row_to_add[Time_origin+getuptime_index])
-		
+		if (not standard_hour) :
+			if row_to_add[Time_origin+getuptime_index]=="NA":
+				current_hour=datetime.datetime.strftime(datetime.datetime.now(),"%Hh%M")
+				self.text_morning.SetValue(current_hour)
+			else:
+				self.text_morning.SetValue(row_to_add[Time_origin+getuptime_index])
+				
+			
 		#meditation
 	
 		self.rb6.append(wx.RadioButton(self, label="0min",style=wx.RB_GROUP))
@@ -476,7 +487,7 @@ class Good_Practice(wx.Panel):
 		hours_morning=["06h06","07h07","7h30","08h"]
 		zazen_minutes=[0,24,30,45]
 		#rest_note=map(str,range(13))[1:13]#cette ligne génère une chaine de douze chiffres de 1 à 12
-		rest_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 12
+		rest_note=range(14)[1:14]#cette ligne génère quatorze integers de 0 à 13
 		reality_check=range(8)[0:8]
 		diner_rate=range(14)
 		print reality_check
@@ -529,7 +540,7 @@ class Good_Practice(wx.Panel):
 				rb2_string="NA"
 				if values.GetValue():
 					rb2_string=diner_rate[i]
-					print "recording zazen",rb2_string,"at position",Good_practice_origin+number_of_improving_practices+3
+					print "recording diner",rb2_string,"at position",Good_practice_origin+number_of_improving_practices+3
 					row_to_add[Good_practice_origin+number_of_improving_practices+3]=rb2_string
 					break
 					
