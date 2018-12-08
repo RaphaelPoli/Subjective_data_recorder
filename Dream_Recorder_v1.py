@@ -10,13 +10,16 @@
 import wx
 #import wx.lib.scrolledpanel
 
+import os.path
+
 import pyexcel 
 from pyexcel_ods import get_data
 from pyexcel_ods import save_data
 from collections import OrderedDict
 import datetime
 
-from odf.opendocument import OpenDocumentText#semble accepter les fichiers aux noms accentués
+from odf.opendocument import OpenDocumentText #semble accepter les fichiers aux noms accentués
+from odf.opendocument import load
 from odf.style import Style, TextProperties, ParagraphProperties
 from odf.text import H,P
 from odf import  table, text
@@ -79,8 +82,8 @@ day_number=str(datetime.datetime.strftime(datetime.datetime.now(),"%d"))
 year_number=datetime.datetime.strftime(datetime.datetime.now(),"%Y")
 today_n_of_row=0
 Today_Dream_filename=date=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
-Dream_report_tmp="dream_report_today"
-Day_recall_tmp="day_recall_tmp"
+Dream_report_tmp=u"dream_report_today"
+Day_recall_tmp=u"day_recall_tmp"
 
 print Today_Dream_filename
 
@@ -588,6 +591,30 @@ class Good_Practice(wx.Panel):
 		
 class Dream_Report(wx.Panel):
 	def __init__(self, parent, title):
+		global Dream_report_tmp
+		global Day_recall_tmp
+		global Results_and_problems_origin
+		global row_to_add
+
+
+		# entry is defined new if none of the dream characteristics have been s
+	    # because usually it is easier to set them after the dream report is written
+		def entry_is_new():
+			result=True
+			for i in range(23):
+				value=row_to_add[Results_and_problems_origin+i+2]
+				if value!=u"NA":
+					result=False
+			return result
+
+			
+		if not entry_is_new():
+			if os.path.isfile(Dream_report_tmp+".odt"):
+				report= load(Dream_report_tmp+".odt")
+				last_dream_report=report.text
+				last_recall= load(Day_recall_tmp+".odt")
+				last_day_recall=last_recall.text
+	
 		#----------------------------------------------- container creation
 
 		
@@ -608,7 +635,11 @@ class Dream_Report(wx.Panel):
 		
 		#self.rb1[9].SetValue(True)
 		self.day_recall=wx.TextCtrl(self,size=(480,350), style = wx.TE_MULTILINE)
+		if not entry_is_new():
+			self.day_recall.SetValue(str(last_day_recall))
 		self.report=wx.TextCtrl(self,size=(480,350), style = wx.TE_MULTILINE, value=u"")
+		if not entry_is_new():
+			self.report.SetValue(str(last_dream_report))
 		self.button3 = wx.Button(self, label="Record both")
 		self.Bind(wx.EVT_BUTTON, self.Click_day_recall, self.button3)#should rename this procedure
 
@@ -640,6 +671,7 @@ class Dream_Report(wx.Panel):
 		global Day_recall
 		global Good_practice_origin
 		global Time_origin
+		global number_of_improving_practices
 		
 		Day_recall=self.day_recall.GetValue()
 		Dream_report=self.report.GetValue()
@@ -689,7 +721,7 @@ class Dream_Report(wx.Panel):
 		textdoc.text.addElement(h)
 		
 		if not row_to_add[Good_practice_origin+6] == u"NA":
-			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+6])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
@@ -755,7 +787,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
 		for i in range(23):
-			if row_to_add[Results_and_problems_origin+i+2]==1:
+			if row_to_add[Results_and_problems_origin+i+2]==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
 				self.chk[i].SetValue(True)
 
 		
