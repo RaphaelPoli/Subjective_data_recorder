@@ -35,7 +35,7 @@ print wx.PlatformInfo
 #-----------------------------------------------------------------global variables
 default_home_name="La cella"
 output_file=u'lucid_dream_data_2018-2019.xls'
-
+number_of_rate_columns=5
 number_of_improving_practices=5
 Time_origin=0
 Good_practice_origin=5
@@ -62,6 +62,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA", 
 			"NA","NA","NA",
 			
+			"NA","NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA","NA","NA",default_home_name,"NA"]
 
@@ -480,7 +481,7 @@ class Good_Practice(wx.Panel):
 	
 		
 		
-	def Click(self,event):#records the data
+	def Click(self,event):#records the data for good practices
 		global app
 		global row_to_add
 		global Time_origin
@@ -595,6 +596,7 @@ class Dream_Report(wx.Panel):
 		global Day_recall_tmp
 		global Results_and_problems_origin
 		global row_to_add
+		global number_of_rate_columns
 
 
 		# entry is defined new if none of the dream characteristics have been s
@@ -602,7 +604,7 @@ class Dream_Report(wx.Panel):
 		def entry_is_new():
 			result=True
 			for i in range(23):
-				value=row_to_add[Results_and_problems_origin+i+2]
+				value=row_to_add[Results_and_problems_origin+i+number_of_rate_columns]
 				if value!=u"NA":
 					result=False
 			return result
@@ -743,9 +745,174 @@ class Dream_Report(wx.Panel):
 		print"Saving", Dream_report_tmp
 		tmpdoc_dream.save(u"./"+Dream_report_tmp, True)
 	
+	
+class Dream_Quality_rates(wx.Panel):# tab with Results and problems
+	def __init__(self, parent, title):
+		#----------------------------------------------- container creation
+
+		fgs_container = wx.FlexGridSizer(4, 2, 9, 25)
+		fgs_rates_1 = wx.FlexGridSizer(3, 5,  9, 25)
+		fgs_rates_2 = wx.FlexGridSizer(3, 5,  9, 25)
+		fgs_rates_3 = wx.FlexGridSizer(3, 5,  9, 25)
+		fgs_problems=wx.FlexGridSizer(7, 2, 9, 25)
+		#--------------------------------------------------- panel start
+		wx.Panel.__init__(self, parent)
+		bSizer  = wx.BoxSizer( wx.VERTICAL )
+		bSizer2 = wx.BoxSizer( wx.VERTICAL )
+		self.empty=wx.StaticText(self, label="")
+		
+		
+		#those copy paste could be a iterative loop
+				
+		#Vividness rate
+		self.title_1=wx.StaticText(self, label="The dream was vivid (rate on 10)")
+		self.rb_vivid=[]
+		vividness_rate=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
+		for n in range(14):
+			if (n==0):
+				self.rb_vivid.append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
+			else:
+				self.rb_vivid.append(wx.RadioButton(self, label=str(n)))
+			self.rb_vivid[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.rb_vivid[n].SetValue(False)
+		self.rb_vivid.append(wx.RadioButton(self, label="NA"))
+		self.rb_vivid[14].SetValue(False)
+		
+		# setting initial state to the rate
+		for i in range(14):
+			if row_to_add[Results_and_problems_origin+2]==vividness_rate[i]:
+				self.rb_vivid[i].SetValue(True)
+			if Skip_first_entry:#setting to NA if more than one row
+				self.rb_vivid[14].SetValue(True)
+		
+		
+		#blissfulness rate
+		self.title_2=wx.StaticText(self, label="The dream was blissfull (rate on 10)")
+		self.rb_blissfull=[]
+		blissfulness_rate=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
+		for n in range(14):
+			if (n==0):
+				self.rb_blissfull.append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
+			else:
+				self.rb_blissfull.append(wx.RadioButton(self, label=str(n)))
+			self.rb_blissfull[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.rb_blissfull[n].SetValue(False)
+		self.rb_blissfull.append(wx.RadioButton(self, label="NA"))
+		self.rb_blissfull[14].SetValue(False)
+		
+		# setting initial state to the rate
+		for i in range(14):
+			if row_to_add[Results_and_problems_origin+3]==blissfulness_rate[i]:
+				self.rb_blissfull[i].SetValue(True)
+			if Skip_first_entry:#setting to NA if more than one row
+				self.rb_blissfull[14].SetValue(True)
+		
+		
+		#Rememberance rate
+		self.title_3=wx.StaticText(self, label="I remember well (rate on 10)")
+		self.rb_rememberance=[]
+		rememberance_rate=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
+		for n in range(14):
+			if (n==0):
+				self.rb_rememberance.append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
+			else:
+				self.rb_rememberance.append(wx.RadioButton(self, label=str(n)))
+			self.rb_rememberance[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.rb_rememberance[n].SetValue(False)
+		self.rb_rememberance.append(wx.RadioButton(self, label="NA"))
+		self.rb_rememberance[14].SetValue(False)
+		
+		# setting initial state to the rate
+		for i in range(14):
+			if row_to_add[Results_and_problems_origin+4]==rememberance_rate[i]:
+				self.rb_rememberance[i].SetValue(True)
+			if Skip_first_entry:#setting to NA if more than one row
+				self.rb_rememberance[14].SetValue(True)
+		
+		
+		
+		
+		self.chk=[]
+		#self.rb1[9].SetValue(True)
+		#self.report=wx.TextCtrl(self,size=(500,200), style = wx.TE_MULTILINE)
+		
+		
+		
+		self.button3 = wx.Button(self, label="Record Form")
+		self.Bind(wx.EVT_BUTTON, self.Click, self.button3)
+		
+		
+		fgs_rates_1.AddMany(self.rb_vivid)
+		fgs_rates_2.AddMany(self.rb_blissfull)
+		fgs_rates_3.AddMany(self.rb_rememberance)
+		#the fgs container is filled line by line from left to right
+		fgs_container.AddMany([self.title_1,self.title_3,fgs_rates_1,fgs_rates_3,self.title_2,self.button3,fgs_rates_2])
+		bSizer.Add(fgs_container, wx.ALL)
+		
+		# ------------------------------------------------------- form foot
+		
+			
+		bSizer2.Add(fgs_container, wx.ALL)
+		self.SetSizer(bSizer2)
+	
+	
+	
+		# ------------------------------------------------- Dream quality rates panel methods ---------------------------------------------------
+
+	def SetVal(self,event):
+		pass
+			
+				
+	def Click(self,event):#problems and results
+		global row_to_add
+		global Good_practice_origin
+		global number_of_improving_practices
+		
+		vividness_rate=range(14)[0:14]
+		rememberance_rate=range(14)[0:14]		
+		blissfullness_rate=range(14)[0:14]
+			
+		i=-1
+		if self.rb_vivid[14].GetValue():#"If NA is checked don't look at the rate"
+			print "NA checked"
+			row_to_add[Results_and_problems_origin+2]="NA"
+		else:
+			for values in self.rb_vivid:
+				i+=1
+				if values.GetValue():
+					row_to_add[Results_and_problems_origin+2]=vividness_rate[i]
+					break
+		
+		i=-1
+		if self.rb_blissfull[14].GetValue():#"If NA is checked don't look at the rate"
+			print "NA checked"
+			row_to_add[Results_and_problems_origin+3]="NA"
+		else:
+			for values in self.rb_blissfull:
+				i+=1
+				if values.GetValue():
+					row_to_add[Results_and_problems_origin+3]=blissfullness_rate[i]
+					break
+					
+		
+		i=-1
+		if self.rb_rememberance[14].GetValue():#"If NA is checked don't look at the rate"
+			print "NA checked"
+			row_to_add[Results_and_problems_origin+4]="NA"
+		else:
+			for values in self.rb_rememberance:
+				i+=1
+				if values.GetValue():
+					row_to_add[Results_and_problems_origin+4]=rememberance_rate[i]
+					break
+		print row_to_add
+		new_day_row(row_to_add)
+		
+		
 		
 class Dream_Quality(wx.Panel):# tab with Results and problems
 	def __init__(self, parent, title):
+		global number_of_rate_columns
 		#----------------------------------------------- container creation
 
 		fgs_container = wx.FlexGridSizer(2, 2, 9, 25)
@@ -787,7 +954,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
 		for i in range(23):
-			if row_to_add[Results_and_problems_origin+i+2]==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
+			if row_to_add[Results_and_problems_origin+i+number_of_rate_columns]==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
 				self.chk[i].SetValue(True)
 
 		
@@ -823,6 +990,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 	def Click(self,event):#problems and results
 		global row_to_add
 		global Results_and_problems_origin
+		global number_of_rate_columns
 		i=-1
 		chk_string=[]
 		for values in self.chk:
@@ -839,7 +1007,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		print "length of dream quality string",len(chk_string)
 		for i in range(len(self.chk)):
 			print i
-			row_to_add[Results_and_problems_origin+2+i]=chk_string[i]
+			row_to_add[Results_and_problems_origin+number_of_rate_columns+i]=chk_string[i]
 		print row_to_add
 		new_day_row(row_to_add)
 		
@@ -968,12 +1136,14 @@ class Main_Form(wx.Frame):
 		tab1 = Good_Practice (nb, "Good Practice" )
 		tab5 = Bad_Practice(nb,"Bad Practice")
 		tab3 = Dream_Report(nb,"Dream Report")
-		tab2 = Dream_Quality(nb,"Dream Quality")
+		tab2 = Dream_Quality(nb,"Dream Quality 1")
+		tab6 = Dream_Quality_rates(nb,"Dream Quality 2")
 		#tab5 = Directories(nb,"Directories")
 		# Add the windows to tabs and name them.
-		nb.AddPage(tab1, "Good Practice")
-		nb.AddPage(tab2, "Dream Quality")
 		nb.AddPage(tab3, "Dream Report")
+		nb.AddPage(tab1, "Good Practice")
+		nb.AddPage(tab2, "Dream Quality 1")
+		nb.AddPage(tab6, "Dream Quality 2")
 		nb.AddPage(tab5, "Bad Practice")
 		#nb.AddPage(tab5, "Directories")
 			
