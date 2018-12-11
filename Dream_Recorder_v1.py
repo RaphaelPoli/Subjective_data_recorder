@@ -120,9 +120,9 @@ def new_day_row(row):
 		print "inserting cells"
 		print row
 		i=-1
+		occurences=get_string_coord(sheet, date)
 		for cell in row:
 			i+=1
-			occurences=get_string_coord(sheet, date)
 			Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],cell)#inserting at the last occurence of the date
 	if add:
 	
@@ -161,7 +161,7 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 	
 	#the search is now case sensitive
 	
-	#print month_string
+	print "searching",string
 	#print date_day
 	i=0
 	j=0
@@ -175,7 +175,7 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 		cell__low=""
 		for cell in table[row]:
 			j+=1#column number
-			#print "comparing",cell,string
+			print "comparing",cell,string
 			if type(cell)<>int:
 				cell__low=str(cell)
 				#print "-"+cell__low+"-"
@@ -353,8 +353,8 @@ class Good_Practice(wx.Panel):
 		self.rb6.append(wx.RadioButton(self, label="45min"))
 	
 		standard_time=False
-		print "zazen loaded", row_to_add[Good_practice_origin+number_of_improving_practices+2]#+2 for reality check and consecutive days
-		print type(row_to_add[Good_practice_origin+number_of_improving_practices+2])
+		#print "zazen loaded", row_to_add[Good_practice_origin+number_of_improving_practices+2]#+2 for reality check and consecutive days
+		#print type(row_to_add[Good_practice_origin+number_of_improving_practices+2])
 		if row_to_add[Good_practice_origin+number_of_improving_practices+2]==0:
 			self.rb6[0].SetValue(True)
 			standard_time=True
@@ -371,8 +371,10 @@ class Good_Practice(wx.Panel):
 		self.text_zazen=wx.TextCtrl(self)
 		if not standard_time :
 			self.text_zazen.SetValue(str(row_to_add[Good_practice_origin+number_of_improving_practices+2]))
-			if row_to_add[Good_practice_origin+number_of_improving_practices+2]!="NA":
-				self.text_zazen.SetValue("NA")
+			#print "zazen",row_to_add[Good_practice_origin+number_of_improving_practices+2]
+			if row_to_add[Good_practice_origin+number_of_improving_practices+2]!=u"NA":
+				#print "zazen not NA"
+				self.text_zazen.SetValue(str(row_to_add[Good_practice_origin+number_of_improving_practices+2]))
 		
 		# improving practices
 		self.chk.append(wx.CheckBox(self, -1, 'Spirit Offering'))
@@ -487,6 +489,7 @@ class Good_Practice(wx.Panel):
 		global Time_origin
 		global Results_and_problems_origin
 		global Good_practice_origin
+		
 		hours_evening=["22h00","22h30","23h00","23h30"]
 		hours_morning=["06h06","07h07","7h30","08h"]
 		zazen_minutes=[0,24,30,45]
