@@ -161,7 +161,7 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 	
 	#the search is now case sensitive
 	
-	print "searching",string
+	#print "searching",string
 	#print date_day
 	i=0
 	j=0
@@ -175,7 +175,7 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 		cell__low=""
 		for cell in table[row]:
 			j+=1#column number
-			print "comparing",cell,string
+			#print "comparing",cell,string
 			if type(cell)<>int:
 				cell__low=str(cell)
 				#print "-"+cell__low+"-"
