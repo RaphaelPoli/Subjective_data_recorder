@@ -195,6 +195,19 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 def save_all(row,report,day_recall):
 	
 		new_day_row(row_to_add)
+		
+
+def define_type(bed_hour):#for now only works with "h" as a separator
+	bed_h=int (bed_hour.split("h")[0])
+	if bed_h>=10 and bed_h<19:
+		typ="nap"
+	if bed_h<=8 :
+		typ="morning"
+	if bed_h>=19:
+		typ="evening"
+	return typ
+	
+	
 # imported classes
 
 from string import Template
@@ -515,15 +528,6 @@ class Good_Practice(wx.Panel):
 		diner_rate=range(14)
 		print reality_check
 		
-		def define_type(bed_hour):#for now only works with "h" as a separator
-			bed_h=int (bed_hour.split("h")[0])
-			if bed_h>=10 and bed_h<19:
-				typ="nap"
-			if bed_h<=8 :
-				typ="morning"
-			if bed_h>=19:
-				typ="evening"
-			return typ
 			
 		#Calculating sleep duration
 		def time_difference(string_start,string_end):# this time difference is made for yesterday to today (should be split into two procedures)
@@ -574,7 +578,9 @@ class Good_Practice(wx.Panel):
 			
 		#sleep length
 		row_to_add[Time_origin+3]=time_difference(row_to_add[Time_origin+1],row_to_add[Time_origin+2])
-			
+		#row type
+		row_to_add[Time_origin+4]=define_type(row_to_add[Time_origin+1])
+		
 		i=-1# rest rate
 		for values in self.rb1:
 			i+=1
@@ -638,7 +644,6 @@ class Good_Practice(wx.Panel):
 					print "recording zazen",rb6_string,"at position",Good_practice_origin+number_of_improving_practices+2
 					row_to_add[Good_practice_origin+number_of_improving_practices+2]=rb6_string
 					break
-		print row_to_add
 		new_day_row(row_to_add)
 		
 			
