@@ -195,7 +195,23 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 def save_all(row,report,day_recall):
 	
 		new_day_row(row_to_add)
+# imported classes
 
+from string import Template
+
+class DeltaTemplate(Template):
+    delimiter = "%"
+
+def strfdelta(tdelta, fmt):
+    d = {"D": tdelta.days}
+    hours, rem = divmod(tdelta.seconds, 3600)
+    minutes, seconds = divmod(rem, 60)
+    d["H"] = '{:02d}'.format(hours)
+    d["M"] = '{:02d}'.format(minutes)
+    d["S"] = '{:02d}'.format(seconds)
+    t = DeltaTemplate(fmt)
+    return t.substitute(**d)
+    
 #-------------------------------------------------------------------interface start-------------------------------------------------
 
 class Good_Practice(wx.Panel):
@@ -499,6 +515,23 @@ class Good_Practice(wx.Panel):
 		diner_rate=range(14)
 		print reality_check
 		
+		#Calculating sleep duration
+		def time_difference(string_start,string_end):# this time difference is made for yesterday to today (should be split into two procedures)
+			yesterday_date=datetime.date.today()-datetime.timedelta(1)
+			#print "yesterday",yesterday_date
+			yesterday_string=yesterday_date.strftime("%d%m%Y")
+			today_string=datetime.date.today().strftime("%d%m%Y")
+			start=datetime.datetime.strptime(yesterday_string+string_start, '%d%m%Y%Hh%M')
+			end=datetime.datetime.strptime(today_string+string_end, '%d%m%Y%Hh%M')
+			#print start, end
+			time_object=end-start
+			result=strfdelta(time_object, "%H h %M")#only workd with spaces (this is a flaw of the imported procedure)
+			result=result.replace(" ", "")
+			#print "replaced result",result
+			return result
+		
+		#Transfering interface values into the global list of variable that represents current row (row_to_add)
+		
 		#wake up time
 		if self.text_morning.GetValue()!="":
 			print "wake up time not blank inserting typed text"
@@ -522,8 +555,10 @@ class Good_Practice(wx.Panel):
 				i+=1
 				if values.GetValue():
 					rb3_string=hours_evening[i]
-			row_to_add[Time_origin+1]=rb3_string
+			row_to_add[Time_origin+1]=row_to_add[Time_origin+1]=rb3_string
 			
+		#sleep length
+		row_to_add[Time_origin+3]=time_difference(row_to_add[Time_origin+1],row_to_add[Time_origin+2])
 			
 		i=-1# rest rate
 		for values in self.rb1:
