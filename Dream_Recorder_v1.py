@@ -515,13 +515,28 @@ class Good_Practice(wx.Panel):
 		diner_rate=range(14)
 		print reality_check
 		
+		def define_type(bed_hour):#for now only works with "h" as a separator
+			bed_h=int (bed_hour.split("h")[0])
+			if bed_h>=10 and bed_h<19:
+				typ="nap"
+			if bed_h<=8 :
+				typ="morning"
+			if bed_h>=19:
+				typ="evening"
+			return typ
+			
 		#Calculating sleep duration
 		def time_difference(string_start,string_end):# this time difference is made for yesterday to today (should be split into two procedures)
+			#add here or in the core of the click procedure something to complete string if minutes lack for example
+			typ=define_type(string_start)
 			yesterday_date=datetime.date.today()-datetime.timedelta(1)
 			#print "yesterday",yesterday_date
 			yesterday_string=yesterday_date.strftime("%d%m%Y")
 			today_string=datetime.date.today().strftime("%d%m%Y")
-			start=datetime.datetime.strptime(yesterday_string+string_start, '%d%m%Y%Hh%M')
+			if typ=="evening":
+				start=datetime.datetime.strptime(yesterday_string+string_start, '%d%m%Y%Hh%M')
+			else:
+				start=datetime.datetime.strptime(today_string+string_start, '%d%m%Y%Hh%M')
 			end=datetime.datetime.strptime(today_string+string_end, '%d%m%Y%Hh%M')
 			#print start, end
 			time_object=end-start
