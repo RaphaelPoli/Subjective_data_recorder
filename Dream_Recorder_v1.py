@@ -331,14 +331,14 @@ class Good_Practice(wx.Panel):
 		self.rb4.append(wx.RadioButton(self, label="06h06",style=wx.RB_GROUP))
 		self.rb4.append(wx.RadioButton(self, label="07h07"))
 		self.rb4.append(wx.RadioButton(self, label="07h30"))
-		self.rb4.append(wx.RadioButton(self, label="08h"))
+		self.rb4.append(wx.RadioButton(self, label="08h00"))
 		
 		
 		#loading data for get up time
 		print "testing",row_to_add[Time_origin+getuptime_index]
 		
 		standard_hour=False
-		if row_to_add[Time_origin+getuptime_index]==u"08h":
+		if row_to_add[Time_origin+getuptime_index]==u"08h00":
 			self.rb4[3].SetValue(True)
 			standard_hour=True
 		if row_to_add[Time_origin+getuptime_index]==u"07h07":
@@ -507,7 +507,7 @@ class Good_Practice(wx.Panel):
 		global Good_practice_origin
 		
 		hours_evening=["22h00","22h30","23h00","23h30"]
-		hours_morning=["06h06","07h07","7h30","08h"]
+		hours_morning=["06h06","07h07","7h30","08h00"]
 		zazen_minutes=[0,24,30,45]
 		#rest_note=map(str,range(13))[1:13]#cette ligne génère une chaine de douze chiffres de 1 à 12
 		rest_note=range(14)[1:14]#cette ligne génère quatorze integers de 0 à 13
