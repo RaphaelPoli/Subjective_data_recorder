@@ -35,8 +35,8 @@ print wx.PlatformInfo
 #-----------------------------------------------------------------global variables
 default_home_name="La cella"
 output_file=u'lucid_dream_data_2018-2019.xls'
-french=False
-english=True
+french=True
+english=False
 
 
 
@@ -353,7 +353,7 @@ class Good_Practice(wx.Panel):
 		
 		
 		#loading data for get up time
-		print "testing",row_to_add[Time_origin+getuptime_index]
+		#print "testing",row_to_add[Time_origin+getuptime_index]
 		
 		standard_hour=False
 		if row_to_add[Time_origin+getuptime_index]==u"08h00":
@@ -512,7 +512,7 @@ class Good_Practice(wx.Panel):
 			i+=1
 			
 			row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
-		print row_to_add
+		#print row_to_add
 		#print frame.text.GetValue()
 	
 		
@@ -793,7 +793,7 @@ class Dream_Report(wx.Panel):
 			h = H(text=u"Je suis reposé à "+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
 			
-			if not row_to_add[Good_practice_origin+6] == u"NA":
+			if not row_to_add[Good_practice_origin+number_of_improving_practices+3] == u"NA":
 				h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 				textdoc.text.addElement(h)
 
@@ -991,7 +991,7 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 				if values.GetValue():
 					row_to_add[Results_and_problems_origin+4]=rememberance_rate[i]
 					break
-		print row_to_add
+		#print row_to_add
 		new_day_row(row_to_add)
 		
 		
@@ -1094,7 +1094,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		for i in range(len(self.chk)):
 			print i
 			row_to_add[Results_and_problems_origin+number_of_rate_columns+i]=chk_string[i]
-		print row_to_add
+		#print row_to_add
 		new_day_row(row_to_add)
 		
 		
@@ -1172,7 +1172,7 @@ class Bad_Practice(wx.Panel):
 		for i in range(len(self.chk)):
 			print i
 			row_to_add[Bad_practice_origin+i]=chk_string[i]
-		print row_to_add
+		#print row_to_add
 		new_day_row(row_to_add)
 		
 		
