@@ -35,6 +35,11 @@ print wx.PlatformInfo
 #-----------------------------------------------------------------global variables
 default_home_name="La cella"
 output_file=u'lucid_dream_data_2018-2019.xls'
+french=False
+english=True
+
+
+
 number_of_rate_columns=5
 number_of_improving_practices=5
 Time_origin=0
@@ -732,6 +737,8 @@ class Dream_Report(wx.Panel):
 		global Good_practice_origin
 		global Time_origin
 		global number_of_improving_practices
+		global french
+		global english
 		
 		Day_recall=self.day_recall.GetValue()
 		Dream_report=self.report.GetValue()
@@ -774,19 +781,36 @@ class Dream_Report(wx.Panel):
 		
 		# giving hour values in french in the document
 		
-		h = H(text=u"I went to bed at "+row_to_add[Time_origin+1]+u" and got up at "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
-		textdoc.text.addElement(h)
 		
-		
-		h = H(text=u"I slept for "+row_to_add[Time_origin+3], stylename=bluestyle, outlinelevel=1,)
-		textdoc.text.addElement(h)
-		
-		h = H(text=u"I am well rested at"+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
-		textdoc.text.addElement(h)
-		
-		if not row_to_add[Good_practice_origin+6] == u"NA":
-			h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+		if french :
+			h = H(text=u"Je me suis couché à "+row_to_add[Time_origin+1]+u" et je me suis levé à "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
+			
+			
+			h = H(text=u"J'ai dormi "+row_to_add[Time_origin+3]+".", stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+			
+			h = H(text=u"Je suis reposé à "+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+			
+			if not row_to_add[Good_practice_origin+6] == u"NA":
+				h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+				textdoc.text.addElement(h)
+
+		if english:
+			h = H(text=u"I went to bed at "+row_to_add[Time_origin+1]+u" and got up at "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+			
+			
+			h = H(text=u"I slept for "+row_to_add[Time_origin+3], stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+			
+			h = H(text=u"I am well rested at"+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+			
+			if not row_to_add[Good_practice_origin+6] == u"NA":
+				h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+				textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
