@@ -774,14 +774,18 @@ class Dream_Report(wx.Panel):
 		
 		# giving hour values in french in the document
 		
-		h = H(text=u"Je me couche à "+row_to_add[Time_origin+1]+u" et me lève à "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
+		h = H(text=u"I went to bed at "+row_to_add[Time_origin+1]+u" and got up at "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
 		
-		h = H(text=u"Je suis reposé à "+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
+		
+		h = H(text=u"I slept for "+row_to_add[Time_origin+3], stylename=bluestyle, outlinelevel=1,)
+		textdoc.text.addElement(h)
+		
+		h = H(text=u"I am well rested at"+str(row_to_add[Results_and_problems_origin])+"/10", stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
 		
 		if not row_to_add[Good_practice_origin+6] == u"NA":
-			h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+			h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
