@@ -31,8 +31,20 @@ print wx.PlatformInfo
 
 # to add a row: add the date and the place at the end of the row so that the row has all its cells.
 
+# added vegetable to snack
+# added belly to aches
+
+# procedure to add a variable:
+# add a column in the xls sheet
+# add a "NA" to initialisation empty_row variable
+# add a container in the tab
+# add the button labels
+# add the buttons (mostly copy paste)
+# fill the containers
+# ajust the offsets initial variables
 
 #-----------------------------------------------------------------global variables
+
 default_home_name="La cella"
 output_file=u'food_observation.xls'
 french=True
@@ -48,13 +60,13 @@ snack_offset=47
 beverage_offset=62
 physical_activity_offset=72
 body_state_offset=78
-body_signs_offset=94
+body_signs_offset=95
 Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
 
-empty_row=["NA"]* 101
+empty_row=["NA"]* 102
 empty_row[0]=date
 
 print empty_row
@@ -1750,6 +1762,7 @@ class Body_state(wx.Panel):
 		self.chk[0].append(wx.CheckBox(self, -1, 'Gluteal'))
 		self.chk[0].append(wx.CheckBox(self, -1, 'Feet'))
 		self.chk[0].append(wx.CheckBox(self, -1, 'Perineum'))
+		self.chk[0].append(wx.CheckBox(self, -1, 'belly'))
 		
 		for i in range(len(self.chk)):#loading current row values into form
 			if row_to_add[breakfast_offset+i]==1:
