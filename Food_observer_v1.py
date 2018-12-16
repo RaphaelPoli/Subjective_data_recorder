@@ -39,21 +39,22 @@ french=True
 english=False
 
 
-body_signs_offset=92
-snack_offset=47
-body_state_offset=76
+
+
 breakfast_offset=1
 lunch_offset=15
 diner_offset=31
-physical_activity_offset=70
-
-
+snack_offset=47
+beverage_offset=62
+physical_activity_offset=72
+body_state_offset=78
+body_signs_offset=94
 Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
 
-empty_row=["NA"]* 99
+empty_row=["NA"]* 101
 empty_row[0]=date
 
 print empty_row
@@ -952,7 +953,7 @@ class Lunch(wx.Panel):
 		self.chk[1].append(wx.CheckBox(self, -1, 'Cake taken'))
 		self.chk[1].append(wx.CheckBox(self, -1, 'Jam taken'))
 		self.chk[1].append(wx.CheckBox(self, -1, 'Black chocolate taken'))
-		self.chk[1].append(wx.CheckBox(self, -1, 'yogurt taken'))
+	
 		
 	
 		# ------------------------------ filling containers for lunch
@@ -1042,6 +1043,7 @@ class Snack(wx.Panel):
 		fgs_n_of_=[]
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
+		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		
 		#--------------------------------------------------- panel start
 		wx.Panel.__init__(self, parent)
@@ -1051,10 +1053,26 @@ class Snack(wx.Panel):
 		
 		i=-1
 		self.title=[]
-		#Number of fruit
-		i+=1#0
-		self.title.append(wx.StaticText(self, label="Number of fruits:"))
 		self.breakfast=[]
+		
+		
+		#Number of vegetable
+		i+=1#0
+		self.title.append(wx.StaticText(self, label="Number of vegetable:"))
+		self.breakfast.append([])
+		for n in range(4):
+			if (n==0):
+				self.breakfast[i].append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
+			else:
+				self.breakfast[i].append(wx.RadioButton(self, label=str(n)))
+			self.breakfast[i][n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.breakfast[i][n].SetValue(False)
+		self.breakfast[i].append(wx.RadioButton(self, label="NA"))
+		self.breakfast[i][4].SetValue(False)
+		
+		#Number of fruit
+		i+=1#1
+		self.title.append(wx.StaticText(self, label="Number of fruits:"))
 		self.breakfast.append([])
 		for n in range(4):
 			if (n==0):
@@ -1068,7 +1086,7 @@ class Snack(wx.Panel):
 		
 		
 		#Number of share of cheese
-		i+=1#1
+		i+=1#2
 		self.title.append(wx.StaticText(self, label="Number of shares of cheese (10g a share):"))
 		self.breakfast.append([])
 		for n in range(4):
@@ -1116,11 +1134,13 @@ class Snack(wx.Panel):
 		
 		fgs_n_of_[0].AddMany(self.breakfast[0])
 		fgs_n_of_[1].AddMany(self.breakfast[1])
+		fgs_n_of_[2].AddMany(self.breakfast[2])
 		
 		fgs_dietary_supplement.AddMany(self.chk[0][0:8])
 		fgs_other_component.AddMany(self.chk[1])
 		fgs_container.AddMany([	self.title[0],fgs_n_of_[0],
 								self.title[1],fgs_n_of_[1],
+								self.title[2],fgs_n_of_[2],
 								
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
@@ -1145,6 +1165,7 @@ class Snack(wx.Panel):
 		global Results_and_problems_origin
 		global snack_offset
 		saved_factor=[]
+		saved_factor.append(["0","1","2","3","NA"])#vegetable
 		saved_factor.append(["0","1","2","3","NA"])#fruits
 		saved_factor.append(["0","1","2","3","NA"])#cheese
 		
@@ -1387,12 +1408,14 @@ class Beverage(wx.Panel):
 	def __init__(self, parent, title):
 		global breakfast_offset
 		#----------------------------------------------- container creation
-		fgs_container = wx.FlexGridSizer(11, 2, 9, 25)
+		fgs_container = wx.FlexGridSizer(14, 2, 9, 25)
 		fgs_dietary_supplement = wx.FlexGridSizer(9, 1, 9, 25)
 		fgs_other_component=wx.FlexGridSizer(4, 2, 9, 25)
 		fgs_n_of_=[]
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		
+		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
+		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
 		fgs_n_of_.append(wx.FlexGridSizer(1, 5,  9, 25))
@@ -1418,6 +1441,8 @@ class Beverage(wx.Panel):
 				["None","25cl","50cl","1l or more"],#sodas
 				["None","1","2","3 or more"], #coffee
 				["None","1","2","3 or more"],#tea
+				["None","1","2","3 or more"],#milk beverageg
+				["None","1","2","3 or more"],#infusion
 				]
 		self.dict_translate={
 		"None":0,
@@ -1565,6 +1590,38 @@ class Beverage(wx.Panel):
 		self.breakfast[i][4].SetValue(False)
 		
 		
+		#Milk beverage
+		i+=1#7
+		
+		labels=self.labs[i]
+		self.title.append(wx.StaticText(self, label="Milk Beverage:"))
+		self.breakfast.append([])
+		for n in range(4):
+			if (n==0):
+				self.breakfast[i].append(wx.RadioButton(self, label=labels[n],style=wx.RB_GROUP))
+			else:
+				self.breakfast[i].append(wx.RadioButton(self, label=labels[n]))
+			self.breakfast[i][n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.breakfast[i][n].SetValue(False)
+		self.breakfast[i].append(wx.RadioButton(self, label="NA"))
+		self.breakfast[i][4].SetValue(False)
+		
+		#Infusion
+		i+=1#7
+		
+		labels=self.labs[i]
+		self.title.append(wx.StaticText(self, label="Infusion:"))
+		self.breakfast.append([])
+		for n in range(4):
+			if (n==0):
+				self.breakfast[i].append(wx.RadioButton(self, label=labels[n],style=wx.RB_GROUP))
+			else:
+				self.breakfast[i].append(wx.RadioButton(self, label=labels[n]))
+			self.breakfast[i][n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
+			self.breakfast[i][n].SetValue(False)
+		self.breakfast[i].append(wx.RadioButton(self, label="NA"))
+		self.breakfast[i][4].SetValue(False)
+		
 		
 		
 		
@@ -1594,6 +1651,8 @@ class Beverage(wx.Panel):
 		fgs_n_of_[5].AddMany(self.breakfast[5])
 		fgs_n_of_[6].AddMany(self.breakfast[6])
 		fgs_n_of_[7].AddMany(self.breakfast[7])
+		fgs_n_of_[8].AddMany(self.breakfast[8])
+		fgs_n_of_[9].AddMany(self.breakfast[9])
 		fgs_dietary_supplement.AddMany(self.chk[0:8])
 		fgs_other_component.AddMany(self.chk2[0:8])
 		fgs_container.AddMany([	self.title[0],fgs_n_of_[0],
@@ -1604,6 +1663,8 @@ class Beverage(wx.Panel):
 								self.title[5],fgs_n_of_[5],
 								self.title[6],fgs_n_of_[6],
 								self.title[7],fgs_n_of_[7],
+								self.title[8],fgs_n_of_[8],
+								self.title[9],fgs_n_of_[9],
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
 		#bSizer.Add(fgs_container, wx.ALL)
@@ -1645,7 +1706,7 @@ class Beverage(wx.Panel):
 				j+=1
 				if values.GetValue():
 					rb_string=saved_factor[i][j]
-			row_to_add[snack_offset+i]=rb_string
+			row_to_add[beverage_offset+i]=rb_string
 		
 		num_of_n=len(saved_factor)
 		#print row_to_add
