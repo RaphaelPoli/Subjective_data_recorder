@@ -468,7 +468,7 @@ class Good_Practice(wx.Panel):
 		fgs_time.AddMany([self.title_evening,self.title_morning,fgs_morning,fgs_evening])#contains time questions
 		fgs_buttons.AddMany([self.button3,self.button4])
 		fgs_container.AddMany([fgs_notes,fgs_time,fgs_reality_check_and_title,fgs_zazen_and_title,fgs_more_practice,fgs_buttons])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
@@ -713,7 +713,7 @@ class Dream_Report(wx.Panel):
 		fgs_d_recall.AddMany([self.day_recall,self.button3])
 		fgs_d_report.AddMany([self.report])
 		fgs_container.AddMany([fgs_d_report,fgs_d_recall])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
@@ -721,14 +721,8 @@ class Dream_Report(wx.Panel):
 	# ------------------------------------------------- panel methods ---------------------------------------------------
 	
 	def SetVal(self,event):
-		state1 = self.rb1.GetValue()
-		state2 = self.rb2.GetValue()
-		if state1:
-			print "Melody"
-		if state2: 
-			print "Tone"
+		pass
 		
-				
 	def Click_day_recall(self,event):# recording in an open document the day recall text box
 		global Today_Dream_filename
 		global Dream_report_tmp
@@ -742,9 +736,7 @@ class Dream_Report(wx.Panel):
 		
 		Day_recall=self.day_recall.GetValue()
 		Dream_report=self.report.GetValue()
-		
-		print Day_recall
-		
+			
 		textdoc = OpenDocumentText()
 		tmpdoc_recall= OpenDocumentText()
 		tmpdoc_dream= OpenDocumentText()
@@ -933,7 +925,7 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 		fgs_rates_3.AddMany(self.rb_rememberance)
 		#the fgs container is filled line by line from left to right
 		fgs_container.AddMany([self.title_1,self.title_3,fgs_rates_1,fgs_rates_3,self.title_2,self.button3,fgs_rates_2])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1052,7 +1044,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		fgs_dream_quality.AddMany(self.chk[0:12])
 		fgs_problems.AddMany(self.chk[12:24])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1131,7 +1123,7 @@ class Bad_Practice(wx.Panel):
 		fgs_dream_quality.AddMany(self.chk[0:8])
 		fgs_problems.AddMany(self.chk[8:17])
 		fgs_container.AddMany([fgs_dream_quality,fgs_problems,self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
