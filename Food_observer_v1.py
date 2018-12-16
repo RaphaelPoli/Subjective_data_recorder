@@ -79,7 +79,7 @@ Day_recall_tmp=u"day_recall_tmp"
 
 print Today_Dream_filename
 
-Software_Name="Dream Recorder"
+Software_Name="Food observator"
 
 
 
@@ -454,7 +454,7 @@ class Good_Practice(wx.Panel):
 		fgs_time.AddMany([self.title_evening,self.title_morning,fgs_morning,fgs_evening])#contains time questions
 		fgs_buttons.AddMany([self.button3,self.button4])
 		fgs_container.AddMany([fgs_notes,fgs_time,fgs_reality_check_and_title,fgs_zazen_and_title,fgs_more_practice,fgs_buttons])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 			
 		bSizer2.Add(fgs_container, wx.ALL)
 		self.SetSizer(bSizer2)
@@ -772,7 +772,7 @@ class Diner(wx.Panel):
 								self.title[4],fgs_n_of_[4],
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -969,7 +969,7 @@ class Lunch(wx.Panel):
 								self.title[4],fgs_n_of_[4],
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1124,7 +1124,7 @@ class Snack(wx.Panel):
 								
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1304,12 +1304,13 @@ class Breakfast(wx.Panel):
 								self.title[3],fgs_n_of_[3],
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
 			
 		bSizer2.Add(fgs_container, wx.ALL)
+		bSizer2.Fit(self)
 		self.SetSizer(bSizer2)
 	
 	
@@ -1605,7 +1606,7 @@ class Beverage(wx.Panel):
 								self.title[7],fgs_n_of_[7],
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1726,7 +1727,7 @@ class Body_state(wx.Panel):
 								
 								
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -1972,7 +1973,7 @@ class Body_signs(wx.Panel):
 								self.title[5],fgs_n_of_[5],
 								self.empty,	self.title[6],
 								self.empty2,fgs_dietary_supplement,self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -2190,7 +2191,7 @@ class Physical_activity(wx.Panel):
 								
 								fgs_dietary_supplement, fgs_other_component,
 								self.button3])
-		bSizer.Add(fgs_container, wx.ALL)
+		#bSizer.Add(fgs_container, wx.ALL)
 		
 		# ------------------------------------------------------- form foot
 		
@@ -2327,7 +2328,7 @@ class Main_Form(wx.Frame):
 
 if __name__ == "__main__":
 	app = wx.App()
-	app.font=wx.Font(24,wx.FONTFAMILY_DEFAULT,wx.NORMAL,wx.FONTWEIGHT_NORMAL,False, encoding=wx.FONTENCODING_UTF8)
+	#app.font=wx.Font(24,wx.FONTFAMILY_DEFAULT,wx.NORMAL,wx.FONTWEIGHT_NORMAL,False, encoding=wx.FONTENCODING_UTF8)
 	
 
 	frame = Main_Form(None,Software_Name)
