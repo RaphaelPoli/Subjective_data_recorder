@@ -34,7 +34,7 @@ print wx.PlatformInfo
 
 #-----------------------------------------------------------------global variables
 default_home_name="La cella"
-output_file=u'lucid_dream_data_2018-2019.xls'
+output_file=u'lucid_dream_data_2018-2019_v1.xls'
 french=True
 english=False
 
