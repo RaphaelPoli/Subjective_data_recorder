@@ -34,7 +34,7 @@ DF<-read.xlsx(file, sheetIndex=1, rowIndex=3:200, stringsAsFactors=F)
 
 
 #converting numeric columns to numeric class (from usually chr)
-numeric_columns=names(DF)[10:51]#47
+numeric_columns<-names(DF)[10:53]#47
 
 DF[numeric_columns] <- lapply(DF[numeric_columns], replace_na_column)#replaces NA strings by NA values
 DF[numeric_columns] <- lapply(DF[numeric_columns], as.numeric)#converts numbers
@@ -55,8 +55,8 @@ DF$date_object<-Date_of_observation
 
 
 # calculating indice lilian
-DF$number_of_results<-rowSums(DF[,names(DF)[24:35]],na.rm=T)
-DF$number_of_problems<-rowSums(DF[,names(DF)[36:47]],na.rm=T)
+DF$number_of_results<-rowSums(DF[,names(DF)[30:41]],na.rm=T)
+DF$number_of_problems<-rowSums(DF[,names(DF)[42:53]],na.rm=T)
 DF$indice_lilian<-(DF$number_of_result+1)/(DF$number_of_problems+1)
 # ploting indice lilian
 indice_lilian_plot<-ggplot(DF,aes(date_object,indice_lilian))
