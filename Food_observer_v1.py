@@ -842,6 +842,7 @@ class Diner(wx.Panel):
 		n_of_num=len(self.breakfast)
 		print "n_of_num",n_of_num
 		saved_factor=[]
+		saved_factor.append(["0","1","2","3","NA"])#fruit
 		saved_factor.append(["0","1","2","3","NA"])#vegetable
 		saved_factor.append(["0","1","2","NA"])#meat
 		saved_factor.append(["0","1","2","NA"])#fish

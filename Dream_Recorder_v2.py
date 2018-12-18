@@ -110,6 +110,7 @@ Software_Name="Dream Recorder"
 
 #-----------------------------------------------------elemental procedures------------------------------------------
 
+
 def Today_moon_report(start_year,start_month,start_day):#this procedure needs swisseph (it is the only one
 	start_hour=0
 	total_aspects=0
@@ -176,8 +177,8 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 						for i in range(len(aspect_table)):#parsing aspects to detect in developper defined list
 							gotit=False
 							dot=explorelon+aspect_table[i][1]
-							if aspect_table[i][1]==-120 and planet_name[planet]=="Pluto" and math.fabs(dot-explorelon_other)<sensitivity: print "trine to Pluto dot=",dot
-							if aspect_table[i][1]==120 and planet_name[planet]=="Pluto" and math.fabs(dot-explorelon_other)<sensitivity: print "trine to Pluto dot=",dot
+							#if aspect_table[i][1]==-120 and planet_name[planet]=="Pluto" and math.fabs(dot-explorelon_other)<sensitivity: print "trine to Pluto dot=",dot
+							#if aspect_table[i][1]==120 and planet_name[planet]=="Pluto" and math.fabs(dot-explorelon_other)<sensitivity: print "trine to Pluto dot=",dot
 							
 							if dot>360 : dot = dot-360
 							if dot<0 : dot = dot+360
@@ -287,8 +288,8 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 	
 	#Checking the moon context
 
-	print "Current Moon longitude:",round(moonlon,2)
-	print "Current Moon sign:",zodiac_sign[sign(moonlon)]
+	#print "Current Moon longitude:",round(moonlon,2)
+	#print "Current Moon sign:",zodiac_sign[sign(moonlon)]
 
 	print ""
 		
@@ -296,7 +297,7 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 	
 	
 	#--------------------------------------------	
-	print"Computing today's moon"
+	#print"Computing today's moon"
 	u=any_next_aspect(jul_day_UT,moonlon,-1,"Any",10,False,gregflag)
 	#print u
 	lastday=''
@@ -362,19 +363,40 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 	#print date_hour_convert(date2),u[0][number],"to",planet_name[u[1][number]]
 	#adding table to document
 
-	print "Neutral",Neutral_percent
-	print "Harmonious",Harmonious_percent
-	print "Dysharmonious",Disharmonious_percent
-	print "total aspects",total_aspects
+	#print "Neutral",Neutral_percent
+	#print "Harmonious",Harmonious_percent
+	#print "Dysharmonious",Disharmonious_percent
+	#print "total aspects",total_aspects
 	return [Harmonious_percent,Neutral_percent,Disharmonious_percent,total_aspects]
-	print "Done"
-	print "Document generation ended at ",datetime.datetime.strftime(datetime.datetime.now(),"%H:%M")
-
+	
 	
 	
 	#------------------------------------------------------------------------------------------------------------------
 	
 	
+def fill_all_moon(date_column=0, skip=4):
+	global output_file
+	
+	sheet = get_data(output_file)#another way to load a sheet this time in an ordered dictionary
+	print "longueur du tableau", len(sheet["Sheet1"])
+	for date in range(len(sheet["Sheet1"])):
+		if date>skip-1:
+			
+			date_str=sheet["Sheet1"][date][date_column]
+			print date_str
+			date_obj=datetime.datetime.strptime(date_str, '%d/%m/%Y')
+			moon_report=Today_moon_report(date_obj.year,date_obj.month,date_obj.day)
+			print ("Harmonious",moon_report[0])
+			print ("Neutral",moon_report[1])
+			print ("Dysharmonious",moon_report[2])
+			print ""
+			sheet["Sheet1"][date][date_column+1]=int(moon_report[0])
+			sheet["Sheet1"][date][date_column+2]=int(moon_report[1])
+			sheet["Sheet1"][date][date_column+3]=int(moon_report[2])
+			sheet["Sheet1"][date][date_column+4]=int(moon_report[3])
+	pyexcel.save_book_as(bookdict=sheet,dest_file_name=output_file)
+
+#fill_all_moon()
 
 
 def find_reality_check_consecutive():
