@@ -52,10 +52,14 @@ english=False
 
 number_of_rate_columns=5
 number_of_improving_practices=5
+
 Time_origin=4
 Good_practice_origin=Time_origin+5
-Bad_practice_origin=Good_practice_origin+2+number_of_improving_practices+2
+Bad_practice_origin=Good_practice_origin+2+number_of_improving_practices+2+2
 Results_and_problems_origin=Bad_practice_origin+3+1
+
+print Results_and_problems_origin
+
 
 Skip_first_entry=False
 
@@ -80,8 +84,8 @@ empty_row=[date,"NA","NA",
 			
 			"NA","NA","NA",
 			"NA","NA","NA",
-			"NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
-
+			"NA","NA","NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
+print "longueur du rang attendu",len(empty_row)
 row_to_add=[]
 i=-1
 for value in empty_row:
