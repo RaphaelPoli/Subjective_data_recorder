@@ -66,6 +66,7 @@ Skip_first_entry=False
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
 empty_row=[date,"NA","NA",
+
 			"NA","NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
@@ -84,7 +85,9 @@ empty_row=[date,"NA","NA",
 			
 			"NA","NA","NA",
 			"NA","NA","NA",
-			"NA","NA","NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
+			"NA","NA","NA",
+			
+			"NA","NA","NA","NA","NA",default_home_name,"NA"]
 print "longueur du rang attendu",len(empty_row)
 row_to_add=[]
 i=-1
@@ -402,6 +405,29 @@ def fill_all_moon(date_column=0, skip=4):
 
 #fill_all_moon()
 
+def Create_time_delta(date_column=0, skip=1):
+	file_name= "time_delta.xls"
+	
+	sheet = get_data(file_name)#another way to load a sheet this time in an ordered dictionary
+	print "longueur du tableau", len(sheet["Sheet1"])
+	for date in range(len(sheet["Sheet1"])):
+		if date>skip-1:
+			
+			date_str=str(sheet["Sheet1"][date][date_column])
+			print date_str
+			date_obj=datetime.datetime.strptime(date_str, '%Y-%m-%d')
+			moon_report=Today_moon_report(date_obj.year,date_obj.month,date_obj.day)
+			print "Harmonious",moon_report[0]
+			print "Neutral",moon_report[1]
+			print "Dysharmonious",moon_report[2]
+			print ""
+			sheet["Sheet1"][date][date_column+1]=int(moon_report[0])
+			sheet["Sheet1"][date][date_column+2]=int(moon_report[1])
+			sheet["Sheet1"][date][date_column+3]=int(moon_report[2])
+			sheet["Sheet1"][date][date_column+4]=int(moon_report[3])
+	pyexcel.save_book_as(bookdict=sheet,dest_file_name=file_name)
+
+#Create_time_delta()
 
 def find_reality_check_consecutive():
 	pass
@@ -594,7 +620,7 @@ class Good_Practice(wx.Panel):
 				self.rb1.append(wx.RadioButton(self, label=str(n+1)))
 			self.rb1[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb1[n].SetValue(False)
-		for i in range(12):
+		for i in range(13):
 			if row_to_add[Results_and_problems_origin]==rest_note[i]:
 				self.rb1[i].SetValue(True)
 				
