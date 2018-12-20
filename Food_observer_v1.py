@@ -57,14 +57,14 @@ snack_offset=diner_offset+19
 beverage_offset=snack_offset+16
 physical_activity_offset=beverage_offset+10
 body_state_offset=physical_activity_offset+6
-body_signs_offset=body_state_offset+17
+body_signs_offset=body_state_offset+19
 
 Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
 
-empty_row=["NA"]* 110
+empty_row=["NA"]* 112
 empty_row[0]=date
 
 print empty_row
@@ -1874,6 +1874,8 @@ class Body_state(wx.Panel):
 		self.chk[0].append(wx.CheckBox(self, -1, 'Feet'))
 		self.chk[0].append(wx.CheckBox(self, -1, 'Perineum'))
 		self.chk[0].append(wx.CheckBox(self, -1, 'belly'))
+		self.chk[0].append(wx.CheckBox(self, -1, 'head'))
+		self.chk[0].append(wx.CheckBox(self, -1, 'mouth'))
 		
 		for i in range(len(self.chk)):#loading current row values into form
 			if row_to_add[breakfast_offset+i]==1:
