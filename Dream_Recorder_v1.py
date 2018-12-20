@@ -4,20 +4,25 @@
 #import sys
 #text=""
 #text = unicode(text, sys.getfilesystemencoding())
-
+# add tireness when going to bed
+# add satisfaction rate on diner
 
 #--------------------------------------dependencies-----------------------------------------------
+# this is interface library
 import wx
 #import wx.lib.scrolledpanel
-
+#thi is used to search for files in directory
 import os.path
-
+#this is to update the xls
 import pyexcel 
 from pyexcel_ods import get_data
 from pyexcel_ods import save_data
 from collections import OrderedDict
+
+# this is to get system date 
 import datetime
 
+# this is to create dream report in open document format
 from odf.opendocument import OpenDocumentText #semble accepter les fichiers aux noms accentués
 from odf.opendocument import load
 from odf.style import Style, TextProperties, ParagraphProperties
