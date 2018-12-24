@@ -6,6 +6,7 @@
 #text = unicode(text, sys.getfilesystemencoding())
 # add tireness when going to bed
 # add satisfaction rate on diner
+# charger les valeurs sous forme de notes qui ont été ajoutées.
 
 
 #--------------------------------------dependencies-----------------------------------------------
@@ -320,6 +321,8 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 	Harmonious_percent=0
 	Disharmonious_percent=0
 	num_jour=0
+	new_moon=0
+	full_moon=0
 	for number in range(len(u[0])-1):
 		if not End:
 			date2=swe.revjul(u[2][number],gregflag)
@@ -349,7 +352,15 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 				Neutral_count+=1
 				total_aspects+=1
 				#print "neurel detected"
-				
+			#print u[0][number]
+			#print u[1][number]
+			if u[0][number]=="Conjunction" and u[1][number]==0:
+				#print "new_moon"
+				new_moon=1
+			if u[0][number]=="Opposition" and u[1][number]==0:
+				#print "full_moon"
+				full_moon=1
+	
 			# testing if next aspect is tomorrow
 			date3=swe.revjul(u[2][number+1],gregflag)
 			Julday_next_aspect=u[2][number+1]
@@ -374,9 +385,7 @@ def Today_moon_report(start_year,start_month,start_day):#this procedure needs sw
 	#print "Harmonious",Harmonious_percent
 	#print "Dysharmonious",Disharmonious_percent
 	#print "total aspects",total_aspects
-	return [Harmonious_percent,Neutral_percent,Disharmonious_percent,total_aspects]
-	
-	
+	return [Harmonious_percent,Neutral_percent,Disharmonious_percent,total_aspects,new_moon,full_moon]
 	
 	#------------------------------------------------------------------------------------------------------------------
 	
@@ -404,12 +413,13 @@ def fill_all_moon(date_column=0, skip=4):
 	pyexcel.save_book_as(bookdict=sheet,dest_file_name=output_file)
 
 #fill_all_moon()
-
+#to work this procedure must load a xls file with 5 columns filled with NA the first column must be dates
 def Create_time_delta(date_column=0, skip=1):
-	file_name= "time_delta.xls"
+	file_name= "time_delta_2019.xls"
 	
 	sheet = get_data(file_name)#another way to load a sheet this time in an ordered dictionary
 	print "longueur du tableau", len(sheet["Sheet1"])
+	lun=0
 	for date in range(len(sheet["Sheet1"])):
 		if date>skip-1:
 			
@@ -417,14 +427,21 @@ def Create_time_delta(date_column=0, skip=1):
 			print date_str
 			date_obj=datetime.datetime.strptime(date_str, '%Y-%m-%d')
 			moon_report=Today_moon_report(date_obj.year,date_obj.month,date_obj.day)
+			if int(moon_report[4])==1:
+				lun+=1
 			print "Harmonious",moon_report[0]
 			print "Neutral",moon_report[1]
 			print "Dysharmonious",moon_report[2]
+			print "Lunaison",lun
 			print ""
+			print "Lunaison",lun
 			sheet["Sheet1"][date][date_column+1]=int(moon_report[0])
 			sheet["Sheet1"][date][date_column+2]=int(moon_report[1])
 			sheet["Sheet1"][date][date_column+3]=int(moon_report[2])
 			sheet["Sheet1"][date][date_column+4]=int(moon_report[3])
+			sheet["Sheet1"][date][date_column+5]=int(moon_report[4])
+			sheet["Sheet1"][date][date_column+6]=int(moon_report[5])
+			sheet["Sheet1"][date][date_column+7]=lun
 	pyexcel.save_book_as(bookdict=sheet,dest_file_name=file_name)
 
 #Create_time_delta()
@@ -528,6 +545,40 @@ def get_string_coord(table, string):#if empty rows are repeated more than two ti
 				
 	return memorize_coord
 
+def get_string_coord_column(table,column, string):#if empty rows are repeated more than two times there are errors in row count probably due to ODSReader conditional count.
+	
+	#the search is now case sensitive
+	
+	#print "searching",string
+	#print date_day
+	i=0
+	j=0
+	memorize_coord=[]
+	#print "number of rows",len(table)
+	for row in range(len(table)):
+		#print "row",row, table[row][0]
+		i+=1
+		j=0
+		match=False
+		cell__low=""
+		j=column
+		cell=table[row][column]
+		if type(cell)<>int:
+			cell__low=str(cell)
+				#print "-"+cell__low+"-"
+				#print "converting to lowercase"
+		else:
+			if cell<>None:
+				cell__low=str(cell)
+				cell__low=cell__low.lower()
+			#print "type",type(cell__low)
+			#print cell__low.find(string)
+		if string == cell__low:
+			#print "found",cell__low
+			memorize_coord.append([j,i])#column,row
+				
+	return memorize_coord
+	
 def save_all(row,report,day_recall):
 	
 		new_day_row(row_to_add)
@@ -620,8 +671,11 @@ class Good_Practice(wx.Panel):
 				self.rb1.append(wx.RadioButton(self, label=str(n+1)))
 			self.rb1[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb1[n].SetValue(False)
+		# loading rest rate
+		print "rest rate",row_to_add[Results_and_problems_origin]
 		for i in range(13):
-			if row_to_add[Results_and_problems_origin]==rest_note[i]:
+			
+			if int(row_to_add[Results_and_problems_origin])==rest_note[i]:
 				self.rb1[i].SetValue(True)
 				
 				
@@ -640,12 +694,19 @@ class Good_Practice(wx.Panel):
 			self.rb2[n].SetValue(False)
 		self.rb2.append(wx.RadioButton(self, label="NA"))
 		self.rb2[14].SetValue(False)
-		for i in range(14):
-			if row_to_add[Good_practice_origin+number_of_improving_practices+3]==diner_note[i]:
-				self.rb2[i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb2[14].SetValue(True)
 		
+		# loading diner rate
+		rate=row_to_add[Good_practice_origin+number_of_improving_practices+3]
+		print "diner",rate
+		if rate==u"NA":
+			self.rb2[14].SetValue(True)
+		else:
+			for i in range(13):
+				if int(row_to_add[Good_practice_origin+number_of_improving_practices+3])==diner_note[i]:
+					self.rb2[i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb2[14].SetValue(True)
+			
 		
 		
 		# bed time
@@ -837,7 +898,7 @@ class Good_Practice(wx.Panel):
 		sheet = get_data(output_file)["Sheet1"]
 		
 		i=-1
-		occurences=get_string_coord(sheet, date)
+		occurences=get_string_coord_column(sheet,0, date)
 		print occurences
 		for cell in range(len(row_to_add)):
 			i+=1
@@ -1126,7 +1187,10 @@ class Dream_Report(wx.Panel):
 			if not row_to_add[Good_practice_origin+number_of_improving_practices+3] == u"NA":
 				h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 				textdoc.text.addElement(h)
-
+	
+			h = H(text=u"La Lune était intense à "+str(row_to_add[4]), stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
+		
 		if english:
 			h = H(text=u"I went to bed at "+row_to_add[Time_origin+1]+u" and got up at "+row_to_add[Time_origin+2]+".", stylename=bluestyle, outlinelevel=1,)
 			textdoc.text.addElement(h)
@@ -1141,6 +1205,9 @@ class Dream_Report(wx.Panel):
 			if not row_to_add[Good_practice_origin+6] == u"NA":
 				h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
 				textdoc.text.addElement(h)
+			
+			h = H(text=u"The Moon was intense at "+str(row_to_add[4]), stylename=bluestyle, outlinelevel=1,)
+			textdoc.text.addElement(h)
 				
 		h = H(text= "", stylename=bluestyle, outlinelevel=1,)
 		textdoc.text.addElement(h)
@@ -1648,7 +1715,8 @@ class Main_Form(wx.Frame):
 		# -------------------------------main backend------------------------------------------------
 		date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 		sheet = get_data(output_file)["Sheet1"]
-		occurences=get_string_coord(sheet, date)
+		occurences=get_string_coord_column(sheet,0, date)
+		print occurences
 		today_n_of_row=len(occurences)
 		Today_Dream_filename=day_number.zfill(2)+"_"+month_name_fr[int(month_number)-1]+"_"+year_number+"_"+str(today_n_of_row).zfill(2)
 
@@ -1658,18 +1726,23 @@ class Main_Form(wx.Frame):
 			new_day_row(row_to_add)
 			"You did not run the program today creating new row"
 		else:
-			list_entry=get_string_coord(sheet, date)
+			list_entry=get_string_coord_column(sheet,0, date)
 			if len(list_entry)>1:
 				print "Found more than one entry for today, skipping first day entry values"
 				Skip_first_entry=True
 			print "reading today last entry" #in case todays date exists in the sheet
 										#the number of variable must match between the init list and the loaded sheet
 			print "number of variables:",len(row_to_add)
-			i=-1
-			for cell in range(len(row_to_add)):
+			i=0
+			for cell in range(len(row_to_add)-1):
+				#print cell
 				i+=1
 				#print occurences
-				row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
+				#print "occ",occurences[0][0]
+				#print "i",i
+				cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
+				row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
+				#print cell_content
 			print row_to_add
 
 		#---------------------------------------main frontend--------------------------------------------
