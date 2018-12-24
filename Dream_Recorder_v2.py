@@ -457,6 +457,9 @@ def add_column(table):
 		column.append("")
 	return table
 
+# this is the procedure that takes too long
+# it takes too long because it saves 54 times the whole xls
+# insert_cell takes coordinates from 1 not from 0
 def new_day_row(row):
 	
 	global output_file
@@ -465,22 +468,26 @@ def new_day_row(row):
 	#check if a row was added today and remove it if found
 	date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 	sheet = get_data(output_file)["Sheet1"]
-	if get_string_coord(sheet, date)==[]:
+	list_date=get_string_coord_column(sheet,0, date)
+	print "inserting cells"
+	if list_date==[]:
 		add=True
-		print "adding row"
+		print "no date occurence found, adding row"
 	else:
-		print get_string_coord(sheet, date)
+		print list_date
 		print "inserting cells"
 		print row
-		i=-1
-		occurences=get_string_coord(sheet, date)
+		i=0
+		occurences=list_date
 		for cell in row:
 			i+=1
-			Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],cell)#inserting at the last occurence of the date
+			#print "inserting at x",occurences[0][0]+i
+			Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],str(cell))#inserting at the last occurence of the date
 	if add:
 	
 		book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
 		book.Sheet1.row+= row
+		print "saving xls"
 		book.save_as(output_file)
 		
 def blind_add_row(row):
@@ -673,12 +680,15 @@ class Good_Practice(wx.Panel):
 			self.rb1[n].SetValue(False)
 		# loading rest rate
 		print "rest rate",row_to_add[Results_and_problems_origin]
-		for i in range(13):
+		if row_to_add[Results_and_problems_origin]==u"NA":
 			
-			if int(row_to_add[Results_and_problems_origin])==rest_note[i]:
-				self.rb1[i].SetValue(True)
-				
-				
+			self.rb1[len(self.rb1)-1].SetValue(True)
+		else:
+			for i in range(13):
+				if int(row_to_add[Results_and_problems_origin])==rest_note[i]:
+					self.rb1[i].SetValue(True)
+					
+					
 				
 				
 				
@@ -1048,6 +1058,7 @@ class Good_Practice(wx.Panel):
 					print "recording zazen",rb6_string,"at position",Good_practice_origin+number_of_improving_practices+2
 					row_to_add[Good_practice_origin+number_of_improving_practices+2]=rb6_string
 					break
+		print "after good practice recording",row_to_add
 		new_day_row(row_to_add)
 		
 			
@@ -1734,16 +1745,17 @@ class Main_Form(wx.Frame):
 										#the number of variable must match between the init list and the loaded sheet
 			print "number of variables:",len(row_to_add)
 			i=0
-			for cell in range(len(row_to_add)-1):
+			for cell in range(len(row_to_add)):
 				#print cell
 				i+=1
 				#print occurences
 				#print "occ",occurences[0][0]
-				#print "i",i
+				print "i",i
+				
 				cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
 				row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
-				#print cell_content
-			print row_to_add
+				print cell_content
+			print "after reading row", row_to_add
 
 		#---------------------------------------main frontend--------------------------------------------
 		
