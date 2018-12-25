@@ -469,10 +469,10 @@ def new_day_row(row):
 	date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 	sheet = get_data(output_file)["Sheet1"]
 	list_date=get_string_coord_column(sheet,0, date)
-	print "inserting cells"
+	print "offsets:",list_date
 	if list_date==[]:
 		add=True
-		print "no date occurence found, adding row"
+		print "no today's date occurence found, adding row"
 	else:
 		print list_date
 		print "inserting cells"
@@ -906,15 +906,23 @@ class Good_Practice(wx.Panel):
 		print "loading added row"
 		print "date",date
 		sheet = get_data(output_file)["Sheet1"]
-		
-		i=-1
 		occurences=get_string_coord_column(sheet,0, date)
+		
 		print occurences
+		
+		i=0
 		for cell in range(len(row_to_add)):
+			#print cell
 			i+=1
+			#print occurences
+			#print "occ",occurences[0][0]
+			print "i",i
 			
-			row_to_add[i]=Read_cell(occurences[0][0]+i,occurences[len(occurences)-1][1])#inserting at the last occurence of the date
-		#print row_to_add
+			cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
+			row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
+			print cell_content
+		print "after add row in good practice row", row_to_add
+		i=-1
 		#print frame.text.GetValue()
 	
 		
