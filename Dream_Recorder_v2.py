@@ -1605,8 +1605,12 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
 		for i in range(23):
-			if int(row_to_add[Results_and_problems_origin+i+number_of_rate_columns])==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
-				self.chk[i].SetValue(True)
+			value=row_to_add[Results_and_problems_origin+i+number_of_rate_columns]
+			if value=="NA":
+				pass
+			else:
+				if int(value)==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
+					self.chk[i].SetValue(True)
 
 		
 		
@@ -1686,8 +1690,12 @@ class Bad_Practice(wx.Panel):
 		self.chk.append(wx.CheckBox(self, -1, 'Emphasis in offering'))
 	
 		for i in range(len(self.chk)):#loading current row values into form
-			if int(row_to_add[Bad_practice_origin+i])==1:
-				self.chk[i].SetValue(True)
+			value=row_to_add[Bad_practice_origin+i]
+			if value=="NA":
+				pass
+			else:
+				if int(value)==1:
+					self.chk[i].SetValue(True)
 
 		
 		self.button3 = wx.Button(self, label="Record Entry")
