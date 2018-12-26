@@ -465,10 +465,12 @@ def new_day_row(row):
 	global output_file
 	add=False
 	
+	#sheet = get_data(output_file)#another way to load a sheet this time in an ordered dictionary
+	
 	#checking if rows have already been added
 	date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
-	sheet = get_data(output_file)["Sheet1"]
-	list_date=get_string_coord_column(sheet,0, date)
+	sheet = get_data(output_file)#this is rather a book than a sheet
+	list_date=get_string_coord_column(sheet["Sheet1"],0, date)#note that the searching procedure takes a sheet not a book
 	print "today's date offsets:",list_date
 	if list_date==[]:
 		add=True
@@ -476,19 +478,28 @@ def new_day_row(row):
 	else:
 		print list_date
 		print "inserting cells"
-		print "this is the long procedure"row
+		print "this is the long procedure, adding",row
 		i=0
 		occurences=list_date
 		for cell in row:
 			i+=1
 			#print "inserting at x",occurences[0][0]+i
-			print type(cell)
-			if (type(cell)==unicode or type(cell)==str):
-				#print "inserting unicode"
-				Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],unicode(cell))#inserting at the last occurence of the date
-			if (type(cell)==int):
-				#print "inserting int"
-				Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],int(cell))
+			#print "type",type(cell)
+			y=int(occurences[len(occurences)-1][1])
+			x=int(occurences[0][0])+i
+			sheet["Sheet1"][y-1][x-1]=cell
+			# the following could be used to convert str to unicode
+			#if (type(cell)==unicode or type(cell)==str):
+			#	print "inserting unicode"
+			#	sheet[y-1][x-1]=unicode(cell)
+				#Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],unicode(cell))#inserting at the last occurence of the date
+			#if (type(cell)==int):
+			#	print "inserting int"
+			#	sheet[y-1][x-1]=int(cell)
+				#Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],int(cell))
+		pyexcel.save_book_as(bookdict=sheet,dest_file_name=output_file)#saves a sheet
+		print "Book recorded"
+	
 	if add:
 	
 		book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
@@ -1764,11 +1775,11 @@ class Main_Form(wx.Frame):
 				i+=1
 				#print occurences
 				#print "occ",occurences[0][0]
-				print "i",i
+				#print "i",i
 				
 				cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
 				row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
-				print cell_content
+				#print cell_content
 			print "after reading row", row_to_add
 
 		#---------------------------------------main frontend--------------------------------------------
