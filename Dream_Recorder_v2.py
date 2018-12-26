@@ -465,24 +465,30 @@ def new_day_row(row):
 	global output_file
 	add=False
 	
-	#check if a row was added today and remove it if found
+	#checking if rows have already been added
 	date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 	sheet = get_data(output_file)["Sheet1"]
 	list_date=get_string_coord_column(sheet,0, date)
-	print "offsets:",list_date
+	print "today's date offsets:",list_date
 	if list_date==[]:
 		add=True
 		print "no today's date occurence found, adding row"
 	else:
 		print list_date
 		print "inserting cells"
-		print row
+		print "this is the long procedure"row
 		i=0
 		occurences=list_date
 		for cell in row:
 			i+=1
 			#print "inserting at x",occurences[0][0]+i
-			Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],str(cell))#inserting at the last occurence of the date
+			print type(cell)
+			if (type(cell)==unicode or type(cell)==str):
+				#print "inserting unicode"
+				Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],unicode(cell))#inserting at the last occurence of the date
+			if (type(cell)==int):
+				#print "inserting int"
+				Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],int(cell))
 	if add:
 	
 		book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
@@ -595,7 +601,7 @@ def define_type(bed_hour):#for now only works with "h" as a separator
 	bed_h=int (bed_hour.split("h")[0])
 	if bed_h>=10 and bed_h<19:
 		typ="nap"
-	if bed_h<=8 :
+	if bed_h<=10 :
 		typ="morning"
 	if bed_h>=19:
 		typ="evening"
