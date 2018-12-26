@@ -457,8 +457,8 @@ def add_column(table):
 		column.append("")
 	return table
 
-# this is the procedure that takes too long
-# it takes too long because it saves 54 times the whole xls
+# this is the procedure was taking too long
+# it took too long because it saved 54 times the whole xls
 # insert_cell takes coordinates from 1 not from 0
 def new_day_row(row):
 	
@@ -1605,7 +1605,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		self.chk.append(wx.CheckBox(self, -1, 'Night Worry'))
 		
 		for i in range(23):
-			if row_to_add[Results_and_problems_origin+i+number_of_rate_columns]==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
+			if int(row_to_add[Results_and_problems_origin+i+number_of_rate_columns])==1:#if you change this offset also change line 604 (dream report loading) and data recording in this tab's methods
 				self.chk[i].SetValue(True)
 
 		
@@ -1686,7 +1686,7 @@ class Bad_Practice(wx.Panel):
 		self.chk.append(wx.CheckBox(self, -1, 'Emphasis in offering'))
 	
 		for i in range(len(self.chk)):#loading current row values into form
-			if row_to_add[Bad_practice_origin+i]==1:
+			if int(row_to_add[Bad_practice_origin+i])==1:
 				self.chk[i].SetValue(True)
 
 		
