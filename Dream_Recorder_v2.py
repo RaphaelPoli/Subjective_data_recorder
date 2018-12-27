@@ -933,11 +933,11 @@ class Good_Practice(wx.Panel):
 			i+=1
 			#print occurences
 			#print "occ",occurences[0][0]
-			print "i",i
+			#print "i",i
 			
 			cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
 			row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
-			print cell_content
+			#print cell_content
 		print "after add row in good practice row", row_to_add
 		i=-1
 		#print frame.text.GetValue()
@@ -1686,7 +1686,7 @@ class Dream_Quality(wx.Panel):# tab with Results and problems
 		print "length of dream quality file", len(row_to_add)
 		print "length of dream quality string",len(chk_string)
 		for i in range(len(self.chk)):
-			print i
+			#print i
 			row_to_add[Results_and_problems_origin+number_of_rate_columns+i]=chk_string[i]
 		#print row_to_add
 		new_day_row(row_to_add)
@@ -1768,7 +1768,7 @@ class Bad_Practice(wx.Panel):
 		print len(row_to_add)
 		print len(chk_string)
 		for i in range(len(self.chk)):
-			print i
+			#print i
 			row_to_add[Bad_practice_origin+i]=chk_string[i]
 		#print row_to_add
 		new_day_row(row_to_add)
