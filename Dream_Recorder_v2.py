@@ -1298,12 +1298,11 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 			self.rb[0][n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb[0][n].SetValue(False)
 		self.rb[0].append(wx.RadioButton(self, label="NA"))
-		self.rb[0][14].SetValue(False)
 		
 		# setting initial state to the rate
 		# loading satisfaction rate
 		rate=row_to_add[Good_practice_origin+10]
-		#print "satisfaction",rate
+		print "satisfaction",rate
 		if rate==u"NA":
 			self.rb[0][14].SetValue(True)
 		else:
@@ -1311,9 +1310,7 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 				#print i
 				if int(rate)==rate_list[i]:
 					self.rb[0][i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb[0][14].SetValue(True)
-		
+				
 		#Tireness rate
 		self.rb.append([])
 		
@@ -1339,9 +1336,7 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 				#print i
 				if int(rate)==rate_list[i]:
 					self.rb[1][i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb[1][14].SetValue(True)
-		
+				
 		
 		
 		
@@ -1451,9 +1446,7 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 				#print i
 				if int(rate)==vividness_rate[i]:
 					self.rb_vivid[i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb_vivid[14].SetValue(True)
-		
+			
 		#blissfulness rate
 		self.title_2=wx.StaticText(self, label="The dream was blissfull (rate on 10)")
 		self.rb_blissfull=[]
@@ -1477,9 +1470,7 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 				#print i
 				if int(rate)==blissfulness_rate[i]:
 					self.rb_blissfull[i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb_blissfull[14].SetValue(True)
-					
+				
 					
 		#Rememberance rate
 		self.title_3=wx.StaticText(self, label="I remember well (rate on 10)")
@@ -1505,9 +1496,7 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 				#print i
 				if int(rate)==rememberance_rate[i]:
 					self.rb_rememberance[i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb_rememberance[14].SetValue(True)
-		
+			
 		
 		self.chk=[]
 		#self.rb1[9].SetValue(True)
