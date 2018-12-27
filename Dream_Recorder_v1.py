@@ -7,6 +7,9 @@
 # add tireness when going to bed
 # add satisfaction rate on diner
 
+# this is to get moon position
+import swisseph as swe
+
 #--------------------------------------dependencies-----------------------------------------------
 # this is interface library
 import wx
@@ -113,31 +116,88 @@ def add_column(table):
 	for column in table:
 		column.append("")
 	return table
+	
+	
+def get_string_coord_column(table,column, string):#if empty rows are repeated more than two times there are errors in row count probably due to ODSReader conditional count.
+	
+	#the search is now case sensitive
+	
+	#print "searching",string
+	#print date_day
+	i=0
+	j=0
+	memorize_coord=[]
+	#print "number of rows",len(table)
+	for row in range(len(table)):
+		#print "row",row, table[row][0]
+		i+=1
+		j=0
+		match=False
+		cell__low=""
+		j=column
+		cell=table[row][column]
+		if type(cell)<>int:
+			cell__low=str(cell)
+				#print "-"+cell__low+"-"
+				#print "converting to lowercase"
+		else:
+			if cell<>None:
+				cell__low=str(cell)
+				cell__low=cell__low.lower()
+			#print "type",type(cell__low)
+			#print cell__low.find(string)
+		if string == cell__low:
+			#print "found",cell__low
+			memorize_coord.append([j,i])#column,row
+				
+	return memorize_coord
 
+	
 def new_day_row(row):
 	
 	global output_file
 	add=False
 	
-	#check if a row was added today and remove it if found
+	#sheet = get_data(output_file)#another way to load a sheet this time in an ordered dictionary
+	
+	#checking if rows have already been added
 	date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
-	sheet = get_data(output_file)["Sheet1"]
-	if get_string_coord(sheet, date)==[]:
+	sheet = get_data(output_file)#this is rather a book than a sheet
+	list_date=get_string_coord_column(sheet["Sheet1"],0, date)#note that the searching procedure takes a sheet not a book
+	print "today's date offsets:",list_date
+	if list_date==[]:
 		add=True
-		print "adding row"
+		print "no today's date occurence found, adding row"
 	else:
-		print get_string_coord(sheet, date)
+		print list_date
 		print "inserting cells"
-		print row
-		i=-1
-		occurences=get_string_coord(sheet, date)
+		print "this is the long procedure, adding",row
+		i=0
+		occurences=list_date
 		for cell in row:
 			i+=1
-			Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],cell)#inserting at the last occurence of the date
+			#print "inserting at x",occurences[0][0]+i
+			#print "type",type(cell)
+			y=int(occurences[len(occurences)-1][1])
+			x=int(occurences[0][0])+i
+			sheet["Sheet1"][y-1][x-1]=cell
+			# the following could be used to convert str to unicode
+			#if (type(cell)==unicode or type(cell)==str):
+			#	print "inserting unicode"
+			#	sheet[y-1][x-1]=unicode(cell)
+				#Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],unicode(cell))#inserting at the last occurence of the date
+			#if (type(cell)==int):
+			#	print "inserting int"
+			#	sheet[y-1][x-1]=int(cell)
+				#Insert_cell(occurences[0][0]+i,occurences[len(occurences)-1][1],int(cell))
+		pyexcel.save_book_as(bookdict=sheet,dest_file_name=output_file)#saves a sheet
+		print "Book recorded"
+	
 	if add:
 	
 		book = pyexcel.get_book(file_name=output_file)#loads a sheet in a sheet object that can be modified
 		book.Sheet1.row+= row
+		print "saving xls"
 		book.save_as(output_file)
 		
 def blind_add_row(row):
