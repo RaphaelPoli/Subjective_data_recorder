@@ -1300,13 +1300,18 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		self.rb[0][14].SetValue(False)
 		
 		# setting initial state to the rate
-		
-		for i in range(14):
-			if row_to_add[Good_practice_origin+10]==rate_list[i]:
-				self.rb[0][i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb[0][14].SetValue(True)
-		
+		# loading satisfaction rate
+		rate=row_to_add[Good_practice_origin+10]
+		#print "satisfaction",rate
+		if rate==u"NA":
+			self.rb[0][14].SetValue(True)
+		else:
+			for i in range(14):
+				#print i
+				if int(rate)==rate_list[i]:
+					self.rb[0][i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb[0][14].SetValue(True)
 		
 		#Tireness rate
 		self.rb.append([])
@@ -1324,11 +1329,17 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		self.rb[1][14].SetValue(False)
 		
 		# setting initial state to the rate
-		for i in range(14):
-			if row_to_add[Good_practice_origin+9]==rate_list[i]:
-				self.rb[1][i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb[1][14].SetValue(True)
+		rate=row_to_add[Good_practice_origin+9]
+		#print "tireness",rate
+		if rate==u"NA":
+			self.rb[1][14].SetValue(True)
+		else:
+			for i in range(14):
+				#print i
+				if int(rate)==rate_list[i]:
+					self.rb[1][i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb[1][14].SetValue(True)
 		
 		
 		
@@ -1429,13 +1440,18 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 		self.rb_vivid.append(wx.RadioButton(self, label="NA"))
 		self.rb_vivid[14].SetValue(False)
 		
-		# setting initial state to the rate
-		for i in range(14):
-			if row_to_add[Results_and_problems_origin+2]==vividness_rate[i]:
-				self.rb_vivid[i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb_vivid[14].SetValue(True)
-		
+
+		rate=row_to_add[Results_and_problems_origin+2]
+		#print "vividness",rate
+		if rate==u"NA":
+			self.rb_vivid[14].SetValue(True)
+		else:
+			for i in range(14):
+				#print i
+				if int(rate)==vividness_rate[i]:
+					self.rb_vivid[i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb_vivid[14].SetValue(True)
 		
 		#blissfulness rate
 		self.title_2=wx.StaticText(self, label="The dream was blissfull (rate on 10)")
@@ -1451,14 +1467,19 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 		self.rb_blissfull.append(wx.RadioButton(self, label="NA"))
 		self.rb_blissfull[14].SetValue(False)
 		
-		# setting initial state to the rate
-		for i in range(14):
-			if row_to_add[Results_and_problems_origin+3]==blissfulness_rate[i]:
-				self.rb_blissfull[i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb_blissfull[14].SetValue(True)
-		
-		
+		rate=row_to_add[Results_and_problems_origin+3]
+		#print "vividness",rate
+		if rate==u"NA":
+			self.rb_blissfull[14].SetValue(True)
+		else:
+			for i in range(14):
+				#print i
+				if int(rate)==blissfulness_rate[i]:
+					self.rb_blissfull[i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb_blissfull[14].SetValue(True)
+					
+					
 		#Rememberance rate
 		self.title_3=wx.StaticText(self, label="I remember well (rate on 10)")
 		self.rb_rememberance=[]
@@ -1474,13 +1495,17 @@ class Dream_Quality_rates(wx.Panel):# tab with Results and problems
 		self.rb_rememberance[14].SetValue(False)
 		
 		# setting initial state to the rate
-		for i in range(14):
-			if row_to_add[Results_and_problems_origin+4]==rememberance_rate[i]:
-				self.rb_rememberance[i].SetValue(True)
-			if Skip_first_entry:#setting to NA if more than one row
-				self.rb_rememberance[14].SetValue(True)
-		
-		
+		rate=row_to_add[Results_and_problems_origin+4]
+		#print "vividness",rate
+		if rate==u"NA":
+			self.rb_rememberance[14].SetValue(True)
+		else:
+			for i in range(14):
+				#print i
+				if int(rate)==rememberance_rate[i]:
+					self.rb_rememberance[i].SetValue(True)
+				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
+					self.rb_rememberance[14].SetValue(True)
 		
 		
 		self.chk=[]
