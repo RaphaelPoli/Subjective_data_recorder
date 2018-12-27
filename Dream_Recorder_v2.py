@@ -685,27 +685,30 @@ class Good_Practice(wx.Panel):
 		
 		
 		
-		
 		#rest rate
-		rest_note=range(14)[1:14]#cette ligne génère douze integer de 1 à 13
-		for n in range(13):
+
+		rest_rate=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
+		for n in range(14):
 			if (n==0):
-				self.rb1.append(wx.RadioButton(self, label=str(n+1),style=wx.RB_GROUP))
+				self.rb1.append(wx.RadioButton(self, label=str(n),style=wx.RB_GROUP))
 			else:
-				self.rb1.append(wx.RadioButton(self, label=str(n+1)))
+				self.rb1.append(wx.RadioButton(self, label=str(n)))
 			self.rb1[n].Bind(wx.EVT_RADIOBUTTON, self.SetVal)
 			self.rb1[n].SetValue(False)
-		# loading rest rate
-		print "rest rate",row_to_add[Results_and_problems_origin]
-		if row_to_add[Results_and_problems_origin]==u"NA":
-			
-			self.rb1[len(self.rb1)-1].SetValue(True)
+		self.rb1.append(wx.RadioButton(self, label="NA"))
+		self.rb1[14].SetValue(False)
+		
+		# loading diner rate
+		rate=row_to_add[Results_and_problems_origin]
+		print "rest rate",rate
+		if rate==u"NA":
+			self.rb1[14].SetValue(True)
 		else:
-			for i in range(13):
-				if int(row_to_add[Results_and_problems_origin])==rest_note[i]:
+			for i in range(14):
+				if int(rate)==rest_rate[i]:
 					self.rb1[i].SetValue(True)
-					
-					
+				
+		
 				
 				
 				
@@ -728,12 +731,10 @@ class Good_Practice(wx.Panel):
 		if rate==u"NA":
 			self.rb2[14].SetValue(True)
 		else:
-			for i in range(13):
-				if int(row_to_add[Good_practice_origin+number_of_improving_practices+3])==diner_note[i]:
+			for i in range(14):
+				if int(rate)==diner_note[i]:
 					self.rb2[i].SetValue(True)
-				if Skip_first_entry:#setting to NA if more than one row has been recorded this day
-					self.rb2[14].SetValue(True)
-			
+				
 		
 		
 		# bed time
