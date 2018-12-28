@@ -956,7 +956,7 @@ class Good_Practice(wx.Panel):
 		hours_morning=["06h06","07h07","7h30","08h00"]
 		zazen_minutes=[0,24,30,45]
 		#rest_note=map(str,range(13))[1:13]#cette ligne génère une chaine de douze chiffres de 1 à 12
-		rest_note=range(14)[1:14]#cette ligne génère quatorze integers de 0 à 13
+		rest_note=range(14)[0:14]#cette ligne génère quatorze integers de 0 à 13
 		reality_check=range(8)[0:8]
 		diner_rate=range(14)
 		print reality_check
