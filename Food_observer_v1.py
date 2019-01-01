@@ -57,14 +57,14 @@ snack_offset=diner_offset+19
 beverage_offset=snack_offset+16
 physical_activity_offset=beverage_offset+10
 body_state_offset=physical_activity_offset+6
-body_signs_offset=body_state_offset+19
+body_signs_offset=body_state_offset+21
 
 Skip_first_entry=False
 
 date=datetime.datetime.strftime(datetime.datetime.now(),"%d/%m/%Y")
 sheet = get_data(output_file)["Sheet1"]
 
-empty_row=["NA"]* 112
+empty_row=["NA"]* 113
 empty_row[0]=date
 
 print empty_row
@@ -1951,6 +1951,8 @@ class Body_state(wx.Panel):
 		
 		self.chk.append([])
 		self.title.append(wx.StaticText(self, label="gastroesophageal reflux:"))#3
+		self.chk[3].append(wx.CheckBox(self, -1, 'preceding night'))
+	
 		self.chk[3].append(wx.CheckBox(self, -1, 'morning'))
 		self.chk[3].append(wx.CheckBox(self, -1, 'early afternoon'))
 		self.chk[3].append(wx.CheckBox(self, -1, 'late afternoon'))
