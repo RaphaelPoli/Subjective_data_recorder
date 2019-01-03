@@ -52,7 +52,7 @@ english=False
 
 
 number_of_rate_columns=5
-number_of_improving_practices=5
+number_of_improving_practices=6
 
 Time_origin=4
 Good_practice_origin=Time_origin+5
@@ -88,7 +88,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			
-			"NA","NA","NA","NA","NA",default_home_name,"NA"]
+			"NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
 print "longueur du rang attendu",len(empty_row)
 row_to_add=[]
 i=-1
@@ -685,7 +685,7 @@ class Good_Practice(wx.Panel):
 		
 		
 		
-		#rest rate
+		#rest rate interface
 
 		rest_rate=range(14)[0:14]#cette ligne génère douze integer de 1 à 13
 		for n in range(14):
@@ -698,7 +698,7 @@ class Good_Practice(wx.Panel):
 		self.rb1.append(wx.RadioButton(self, label="NA"))
 		self.rb1[14].SetValue(False)
 		
-		# loading diner rate
+		# loading rest rate rate
 		rate=row_to_add[Results_and_problems_origin]
 		print "rest rate",rate
 		if rate==u"NA":
@@ -836,6 +836,7 @@ class Good_Practice(wx.Panel):
 		self.chk.append(wx.CheckBox(self, -1, 'Spoken prayers'))	
 		self.chk.append(wx.CheckBox(self, -1, 'Ginkgo intake'))	
 		self.chk.append(wx.CheckBox(self, -1, 'Sincerity and no gain spirit in practice'))	
+		self.chk.append(wx.CheckBox(self, -1, 'Surya Namaskar yesterday'))	
 		
 		for i in range(len(self.chk)):
 			if row_to_add[Good_practice_origin+i+2]==1:
@@ -1021,17 +1022,20 @@ class Good_Practice(wx.Panel):
 		#row type
 		row_to_add[Time_origin+4]=define_type(row_to_add[Time_origin+1])
 		
-		i=-1# rest rate
-		for values in self.rb1:
-			i+=1
-			rb1_string="NA"
-			#print i,values.GetValue()
-			if values.GetValue():
-				#print "assinging"
-				rb1_string=rest_note[i]
-				row_to_add[Results_and_problems_origin]=rb1_string
-				break
-				
+		i=-1# saving rest rate
+		if self.rb1[14].GetValue():#"If NA is checked don't look at the rate"
+			print "NA checked"
+			row_to_add[Results_and_problems_origin]="NA"
+		else:
+			for values in self.rb1:
+				i+=1
+				rb1_string="NA"
+				if values.GetValue():
+					rb1_string=rest_note[i]
+					print "recording rest",rb1_string,"at position",Results_and_problems_origin
+					row_to_add[Results_and_problems_origin]=rb1_string
+					break
+					
 				
 		i=-1#diner rate
 		if self.rb2[14].GetValue():#"If NA is checked don't look at the rate"
@@ -1056,7 +1060,7 @@ class Good_Practice(wx.Panel):
 				row_to_add[Good_practice_origin]=rb5_string
 				break
 				
-		#improving practice
+		#improving practice stored in ram as integers
 		i=-1
 		for values in self.chk:
 			i+=1
@@ -1301,7 +1305,7 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		
 		# setting initial state to the rate
 		# loading satisfaction rate
-		rate=row_to_add[Good_practice_origin+10]
+		rate=row_to_add[Good_practice_origin+number_of_improving_practices+5]
 		print "satisfaction",rate
 		if rate==u"NA":
 			self.rb[0][14].SetValue(True)
@@ -1327,7 +1331,7 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		self.rb[1][14].SetValue(False)
 		
 		# setting initial state to the rate
-		rate=row_to_add[Good_practice_origin+9]
+		rate=row_to_add[Good_practice_origin+number_of_improving_practices+4]
 		#print "tireness",rate
 		if rate==u"NA":
 			self.rb[1][14].SetValue(True)
@@ -1370,7 +1374,7 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		pass
 			
 				
-	def Click(self,event):#problems and results
+	def Click(self,event):#tireness and satisfaction
 		global row_to_add
 		global Good_practice_origin
 		global number_of_improving_practices
@@ -1378,29 +1382,31 @@ class Good_Practice2(wx.Panel):# tab with Results and problems
 		rate_list=range(14)[0:14]
 			
 		i=-1
+		#reading satisfaction rates
 		if self.rb[0][14].GetValue():#"If NA is checked don't look at the rate"
 			print "NA checked"
-			row_to_add[Good_practice_origin+10]="NA"
+			row_to_add[Good_practice_origin+number_of_improving_practices+5]="NA"
 		else:
 			for values in self.rb[0]:
 				i+=1
 				if values.GetValue():
-					row_to_add[Good_practice_origin+10]=rate_list[i]
+					row_to_add[Good_practice_origin+number_of_improving_practices+5]=rate_list[i]
 					break
 		
 		i=-1
+		#reading tireness rate
 		if self.rb[1][14].GetValue():#"If NA is checked don't look at the rate"
 			print "NA checked"
-			row_to_add[Good_practice_origin+9]="NA"
+			row_to_add[Good_practice_origin+number_of_improving_practices+4]="NA"
 		else:
 			for values in self.rb[1]:
 				i+=1
 				if values.GetValue():
-					row_to_add[Good_practice_origin+9]=rate_list[i]
+					row_to_add[Good_practice_origin+number_of_improving_practices+4]=rate_list[i]
 					break
 					
 		#print row_to_add
-		new_day_row(row_to_add)
+		new_day_row(row_to_add)#recorded as integer
 		
 		
 	
@@ -1801,7 +1807,7 @@ class Main_Form(wx.Frame):
 				#print "i",i
 				
 				cell_content=Read_cell(occurences[len(occurences)-1][0]+i,occurences[len(occurences)-1][1])
-				row_to_add[i-1]=u""+str(cell_content)#inserting at the last occurence of the date
+				row_to_add[i-1]=cell_content#inserting at the last occurence of the date
 				#print cell_content
 			print "after reading row", row_to_add
 

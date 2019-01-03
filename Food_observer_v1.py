@@ -57,7 +57,7 @@ snack_offset=diner_offset+19
 beverage_offset=snack_offset+16
 physical_activity_offset=beverage_offset+10
 body_state_offset=physical_activity_offset+6
-body_signs_offset=body_state_offset+21
+body_signs_offset=body_state_offset+20
 
 Skip_first_entry=False
 
@@ -90,7 +90,7 @@ Day_recall_tmp=u"day_recall_tmp"
 
 print Today_Dream_filename
 
-Software_Name="Food observator"
+Software_Name="Raphael Food observator"
 
 
 
