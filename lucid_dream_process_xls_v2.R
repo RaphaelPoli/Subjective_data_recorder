@@ -135,9 +135,10 @@ print ("Date of the most vivid dream in the period (decalage de un jour constate
 print (DF_vividness[which(DF_vividness$Vividness_rate==max(DF_vividness$Vividness_rate))+1,]$date_object)
 #Il faudrait creer un tableau avec les dates des reves les plus vivid classe par ordre descendant.
 library(plyr)
-dates_vivid=data.frame(DF_vividness$Vividness_rate, DF_vividness$date_object,DF_vividness$Consecutive.days.of.good.rest)
-DF_v<-arrange(dates_vivid,DF_vividness.Vividness_rate)
-print (tail(DF_v))
+dates_vivid<-data.frame(DF_vividness$Vividness_rate, DF_vividness$date_object,DF_vividness$Consecutive.days.of.good.rest)
+dates_vivid<-rename(dates_vivid,replace=c("DF_vividness.Vividness_rate"="vivid", "DF_vividness.date_object"="date", "DF_vividness.Consecutive.days.of.good.rest"="consecutive"))
+DF_v<-arrange(dates_vivid,desc(vivid))
+print (head(DF_v))
 #DF$Agitation<-sapply(DF$Agitation,replace_na)#ca ca marche
 #DF[29]<-sapply(DF[29], replace_na)#ca ca marche pas (seule la premier ligne est prise)
 #str(DFDF[,16:41]<-sapply(DF,replace_na)
