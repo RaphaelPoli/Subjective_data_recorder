@@ -4,6 +4,10 @@ library(xlsx)
 library(lubridate)
 library ("ggplot2")
 
+#corr correlation statistique (comprendre les maths)
+#autocorrelation
+#les variables n'étant pas continues, il faudrait les représenter avec autre chose que le temps en x
+
 file<-"lucid_dream_data_2018-2019_v2.xls"
 
 replace_na<- function(x){
@@ -91,8 +95,8 @@ print (p+geom_point()+geom_smooth())
 
 
 DFevening=subset(DF,row.type=="evening")
-DFevening$rate_higher=DFevening$light.evening.meal+1
-diner<-ggplot(DFevening,aes(date_object,rate_higher))
+DFevening$light_evening_meal_higher=DFevening$light.evening.meal+1
+diner<-ggplot(DFevening,aes(date_object,light_evening_meal_higher))
 print (diner+geom_point()+geom_smooth(na.rm=T))
 
 DFevening$Moon.intensity=DFevening$Moon.intensity+1
@@ -104,7 +108,36 @@ DFevening$Moon.Harmonies=DFevening$Moon.Harmonies+1
 Moon2<-ggplot(DFevening,aes(date_object,Moon.Harmonies))
 print (Moon2+geom_point()+geom_smooth(na.rm=T))
 
+#pas sûr que ça ne soit pas mieux avec un nombre d'aspects plutôt qu'un pourcentage
+DFevening$Good_moon=(DFevening$Moon.Harmonies+1)/(DFevening$Moon.dysharmony+1)
 
+
+Moon3<-ggplot(DFevening,aes(date_object,Good_moon))
+print (Moon3+geom_point()+geom_smooth(na.rm=T))
+
+
+DF_tireness<-subset(DF,!is.na(tireness))
+tire<-ggplot(DF_tireness,aes(date_object,tireness))
+print (tire+geom_point()+geom_smooth(na.rm=T))
+
+
+DF_f_s<-subset(DF,!is.na(food_satisfaction))
+f_s<-ggplot(DF_f_s,aes(date_object,food_satisfaction))
+print (f_s+geom_point()+geom_smooth(na.rm=T))
+
+
+DF_vividness<-subset(DF,!is.na(Vividness_rate))
+vivid<-ggplot(DF_vividness,aes(date_object,Vividness_rate))
+print (vivid+geom_point()+geom_smooth(na.rm=T))
+#print (max(DF_vividness$Vividness_rate))
+#print (which(DF_vividness$Vividness_rate==max(DF_vividness$Vividness_rate)))
+print ("Date of the most vivid dream in the period (decalage de un jour constate")
+print (DF_vividness[which(DF_vividness$Vividness_rate==max(DF_vividness$Vividness_rate))+1,]$date_object)
+#Il faudrait creer un tableau avec les dates des reves les plus vivid classe par ordre descendant.
+library(plyr)
+dates_vivid=data.frame(DF_vividness$Vividness_rate, DF_vividness$date_object,DF_vividness$Consecutive.days.of.good.rest)
+DF_v<-arrange(dates_vivid,DF_vividness.Vividness_rate)
+print (tail(DF_v))
 #DF$Agitation<-sapply(DF$Agitation,replace_na)#ca ca marche
 #DF[29]<-sapply(DF[29], replace_na)#ca ca marche pas (seule la premier ligne est prise)
 #str(DFDF[,16:41]<-sapply(DF,replace_na)
