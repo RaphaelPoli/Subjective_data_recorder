@@ -52,7 +52,7 @@ english=False
 
 
 number_of_rate_columns=5
-number_of_improving_practices=6
+number_of_improving_practices=7
 
 Time_origin=4
 Good_practice_origin=Time_origin+5
@@ -88,7 +88,7 @@ empty_row=[date,"NA","NA",
 			"NA","NA","NA",
 			"NA","NA","NA",
 			
-			"NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
+			"NA","NA","NA","NA","NA","NA","NA",default_home_name,"NA"]
 print "longueur du rang attendu",len(empty_row)
 row_to_add=[]
 i=-1
@@ -656,7 +656,7 @@ class Good_Practice(wx.Panel):
 		fgs_notes=wx.FlexGridSizer(2, 2, 9, 50)
 		fgs_time=wx.FlexGridSizer(2, 2, 9, 50)
 		fgs_hours=wx.FlexGridSizer(1, 2, 9, 50)
-		fgs_more_practice=wx.FlexGridSizer(3, 2, 9, 50)
+		fgs_more_practice=wx.FlexGridSizer(4, 2, 9, 50)
 		
 		fgs_morning_choice=wx.FlexGridSizer(2,2,9,12)
 		fgs_evening_choice=wx.FlexGridSizer(2,2,9,12)
@@ -837,6 +837,7 @@ class Good_Practice(wx.Panel):
 		self.chk.append(wx.CheckBox(self, -1, 'Ginkgo intake'))	
 		self.chk.append(wx.CheckBox(self, -1, 'Sincerity and no gain spirit in practice'))	
 		self.chk.append(wx.CheckBox(self, -1, 'Surya Namaskar yesterday'))	
+		self.chk.append(wx.CheckBox(self, -1, 'Firm intention to become lucid'))
 		
 		for i in range(len(self.chk)):
 			if row_to_add[Good_practice_origin+i+2]==1:
@@ -1226,7 +1227,7 @@ class Dream_Report(wx.Panel):
 			textdoc.text.addElement(h)
 			
 			if not row_to_add[Good_practice_origin+number_of_improving_practices+3] == u"NA":
-				h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+				h = H(text=u"Le repas du soir était léger à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+u" et satisfaisant à "+str(row_to_add[Good_practice_origin+number_of_improving_practices+5])+"/10.", stylename=bluestyle, outlinelevel=1,)
 				textdoc.text.addElement(h)
 	
 			h = H(text=u"La Lune était intense à "+str(row_to_add[4]), stylename=bluestyle, outlinelevel=1,)
@@ -1244,7 +1245,7 @@ class Dream_Report(wx.Panel):
 			textdoc.text.addElement(h)
 			
 			if not row_to_add[Good_practice_origin+6] == u"NA":
-				h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+".", stylename=bluestyle, outlinelevel=1,)
+				h = H(text=u"My evening meal was light at "+str(row_to_add[Good_practice_origin+number_of_improving_practices+3])+u"/10 "+" and brought a satisfaction of "+str(row_to_add[Good_practice_origin+number_of_improving_practices+5])+"/10.", stylename=bluestyle, outlinelevel=1,)
 				textdoc.text.addElement(h)
 			
 			h = H(text=u"The Moon was intense at "+str(row_to_add[4]), stylename=bluestyle, outlinelevel=1,)
